@@ -7,6 +7,7 @@
 int main()
 {
 	int a;
+	char c[] = "2332423423";
 	int b = scanf("%d", &a);
 	printf("%d", a);
 	printf("%d", b);
