@@ -3,15 +3,12 @@
 
 #include "CMakeProject1.h"
 
-using namespace std;
 
 int main()
 {
-	string a;
-	string b;
-	cin >> a;
-	cout << a<< endl;
-	cin >> b;
-	cout << b<< endl;
+	int a;
+	int b = scanf("%d", &a);
+	printf("%d", a);
+	printf("%d", b);
 	return 0;
 }
