@@ -1,8 +1,8 @@
+#pragma once
 #include<cstdio>
 #include<vector>
+#include "Point.h"
 
-#ifndef ORDER_H
-#define ORDER_H
 
 enum OrderStatus {
   MISS,      //Î´½Óµ¥
@@ -13,16 +13,18 @@ enum OrderStatus {
 
 class Order {
  public:
-  const int id;
-  const std::pair<unsigned int,unsigned int> restaurant;
-  const std::pair<unsigned int,unsigned int> diner;
-  const int time;
+  const unsigned id;
+  const Point from;
+  const Point to;
+  const unsigned time;
   OrderStatus statu;
 
-  Order(const unsigned int id, const std::pair<unsigned int, unsigned int> restaurant,
-        const std::pair<unsigned int, unsigned int> diner, const unsigned int time);
+	Order(const unsigned id);
+  Order(const unsigned  id,const Point  restaurant,
+        const Point, const unsigned  time);
   ~Order();
+  bool operator==(const Order& b) const;
+  Order operator=(Order& b);
 
  private:
 };
-#endif  // !ORDER_H

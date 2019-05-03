@@ -1,40 +1,30 @@
 #include "Rider.h"
 
-Rider::Rider() { std::cout << "new Rider"; }
+Rider::Rider(Point position) : position(position) {}
 
 Rider::~Rider() { std::cout << "delete Rider"; }
 
-void Rider::step() { 
-	auto next = path[0];
-  int x = position.first - next.first;
-  int y = position.second - next.second;
-  if (abs(x) > abs(y))
-    position.first += x / abs(x);
-  else
-    position.second += y / abs(y);
-  if (next == position) {
-    path.erase(path.begin());
-    for (size_t i = 0; i < sending_orders.size(); i++) {
-      if (next == sending_orders[i].diner) {
-        finished_orders.push_back(sending_orders[i]);
-        sending_orders.erase(sending_orders.begin() + i);
-        return;
-			}
-    }
-    for (size_t i = 0; i < recived_orders.size(); i++) {
-      if (next == recived_orders[i].restaurant) {
-        sending_orders.push_back(recived_orders[i]);
-        recived_orders.erase(recived_orders.begin() + i);
-        return;
-			}
-    }
-	}
+void Rider::step() {
+  auto next = path.front();
+  int x = position.x - next.y;
+  int y = position.x - next.y;
+  if (!x) x = 1;
+  if (!y) y = 1;
+  position.x += x / abs(x);
+  position.y += y / abs(y);
+  if (Point::is_arrive(position, next)) {
+    path.pop();
+    auto tmp = sending_orders.find(Order(next.order_id));
+    finished_orders.insert(*tmp);
+    sending_orders.erase(tmp);
+    auto tmp = sending_orders.find(Order(next.order_id));
+    sending_orders.insert(*tmp);
+    recived_orders.erase(tmp);
+  }
 }
 
-void Rider::add_orders(Order r) {
-  this->recived_orders.push_back(r);
-  path.push_back(r.restaurant);
-  path.push_back(r.diner);
-}
+void Rider::add_order(Order r) {}
 
-std::pair<unsigned int, unsigned int> Rider::get_position() { return position; }
+void Rider::change_path(std::queue<Point> path, int all_cost) {}
+
+Point Rider::get_position() { return position; }

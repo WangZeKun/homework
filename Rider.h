@@ -1,33 +1,32 @@
+#pragma once
 #include <cstdio>
 #include <iostream>
-#include <vector>
+#include <queue>
+#include <set>
+#include <algorithm>
 #include "Order.h"
-
-#ifndef RIDER_H
-#define RIDER_H
-enum Way {
-  UP,
-  DOWN,
-  LEFT,
-  RIGHT,
-};
+#include "Point.h"
+#include "Path.h"
 
 class Rider {
  public:
-  Rider();
+  Rider(Point position);
   ~Rider();
 
-  std::vector<Order> outdate_orders;
-  std::vector<Order> finished_orders;
-  std::vector<Order> recived_orders;
-  std::vector<Order> sending_orders;
-  std::vector<std::pair<unsigned int, unsigned int>> path;
+  std::set<Order> outdate_orders;
+  std::set<Order> finished_orders;
+  std::set<Order> recived_orders;
+  std::set<Order> sending_orders;
+
+  int all_cost;
 
   void step();
-  void add_orders(Order r);
-  std::pair<unsigned int, unsigned int> get_position();
+  void add_order(Order r);
+  void change_path(std::queue<Point> path, int all_cost);
+  Point get_position();
 
  private:
-  std::pair<unsigned int, unsigned int> position;
+  std::queue<Point> path;
+  Point position;
 };
-#endif  // !RIDER_H
+
