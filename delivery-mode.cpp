@@ -8,8 +8,8 @@
 void input(Model &m);
 void output(Model &m);
 
-int main() { 
-	Model m({1, 2});
+int main() {
+  Model m = Model(Point(1, 2));
   while (m.statu() == GOOD) {
     input(m);
     m.step();

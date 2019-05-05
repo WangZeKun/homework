@@ -14,12 +14,12 @@ void Rider::step() {
   position.y += y / abs(y);
   if (Point::is_arrive(position, next)) {
     path.pop();
-    auto tmp = sending_orders.find(Order(next.order_id));
-    finished_orders.insert(*tmp);
-    sending_orders.erase(tmp);
-    auto tmp = sending_orders.find(Order(next.order_id));
-    sending_orders.insert(*tmp);
-    recived_orders.erase(tmp);
+    auto tmp1 = sending_orders.find(Order(next.order_id));
+    finished_orders.insert(*tmp1);
+    sending_orders.erase(tmp1);
+    auto tmp2 = sending_orders.find(Order(next.order_id));
+    sending_orders.insert(*tmp2);
+    recived_orders.erase(tmp2);
   }
 }
 

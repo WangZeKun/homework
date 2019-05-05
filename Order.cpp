@@ -11,6 +11,7 @@ Order::Order(const unsigned id, const Point restaurant, const Point diner,
 Order::~Order() {}
 
 bool Order::operator==(const Order& o) const { return id == o.id; }
+bool Order::operator<(const Order& o) const { return id < o.id; }
 
 Order Order::operator=(Order& b) { return b; }
 

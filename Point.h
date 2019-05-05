@@ -11,6 +11,7 @@ class Point {
   PointType type;
   unsigned order_id;
   Point();
+  Point(int x,int y);
   Point(int x, int y,PointType type,unsigned order_id);
   ~Point();
   static int get_dis(const Point& from, const Point& to);

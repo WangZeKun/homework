@@ -9,12 +9,12 @@ Solution cal_solution(Point start, Order new_order,
   int received_num = received_order.size();
   int n = sending_num * 2 + received_num;
   Point P[20];
-  int from[20];
   int G[20][20];
+  int from[20][1 << 20];
   int dp[20][1 << 20];
-  std::fill(G, G + 20 * 20, INT_MAX);
-  std::fill(dp, dp + 20 * (1 << 20), INT_MAX);
-  std::fill(from, from + 20, -1);
+  // std::fill(G, G + 20 * 20, INT_MAX);
+  // std::fill(dp, dp + 20 * (1 << 20), INT_MAX);
+  // std::fill(from, from + 20, -1);
 
   int index_from = 0, index_to;
   for (auto it_from = received_order.begin(); it_from != received_order.end();
@@ -76,19 +76,19 @@ Solution cal_solution(Point start, Order new_order,
           if (!(S & (1 << j)) && G[i][j] != INT_MAX &&
               dp[j][S | (i << j)] > dp[i][S] + G[i][j]) {
             dp[j][S | (1 << j)] = dp[i][S] + G[i][j];
-            from[j] = i;
+            from[j][S] = i;
           }
 
   Solution s;
   int index = 0;
   s.all_cost = INT_MAX;
   for (int i = 0; i < n; i++) {
-    if (dp[i][1 << n - 1] < s.all_cost) {
+    if (dp[i][1 << (n - 1)] < s.all_cost) {
       index = i;
-      s.all_cost = dp[i][1 << n - 1];
+      s.all_cost = dp[i][1 << (n - 1)];
     }
   }
-  get_path(index, from, P, s.path);
+  get_path(index, (1 << n) - 1, from, P, s.path);
   return s;
 }
 
@@ -97,8 +97,10 @@ bool check(int S, int i, int received_num) {
   return true;
 }
 
-void get_path(int end, int from[], Point P[], std::queue<Point> &path) {
+void get_path(int end, int S, int from[20][1 << 20], Point P[],
+              std::queue<Point> &path) {
   if (end != -1) {
-    get_path(from[end], from, P, path);
+    get_path(from[end][S], S ^ 1 << end, from, P, path);
     path.push(P[end]);
   }
+}

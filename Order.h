@@ -24,6 +24,7 @@ class Order {
         const Point, const unsigned  time);
   ~Order();
   bool operator==(const Order& b) const;
+  bool operator<(const Order& b) const;
   Order operator=(Order& b);
 
  private:
