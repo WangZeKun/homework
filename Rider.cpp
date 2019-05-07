@@ -19,12 +19,17 @@ void Rider::step() {
     sending_orders.erase(tmp1);
     auto tmp2 = sending_orders.find(Order(next.order_id));
     sending_orders.insert(*tmp2);
-    recived_orders.erase(tmp2);
+    received_orders.erase(tmp2);
   }
 }
 
-void Rider::add_order(Order r) {}
+void Rider::add_order(Order o) {
+  received_orders.insert(o);
+}
 
-void Rider::change_path(std::queue<Point> path, int all_cost) {}
+void Rider::change_path(std::queue<Point> path, int all_cost) {
+  this->path = path;
+  this->all_cost = all_cost;
+}
 
 Point Rider::get_position() { return position; }
