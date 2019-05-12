@@ -20,7 +20,7 @@ class Rider {
 
   int all_cost;
 
-  void step();
+  void step(unsigned time);
   void add_order(Order r);
   void change_path(std::queue<Point> path, int all_cost);
   Point get_position();

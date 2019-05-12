@@ -36,13 +36,19 @@ void Model::step() {
     Solution ss;
     int index = -1, min = INT_MAX;
     for (auto i = 0; i < riders.size(); i++) {
+      if (riders[i].sending_orders.size() +
+              riders[i].received_orders.size() * 2 >
+          18)
+        continue;
       Solution s =
           cal_solution(riders[i].get_position(), waiting_order.front(),
                        riders[i].received_orders, riders[i].sending_orders);
       if (s.all_cost - riders[i].all_cost < min) {
         ss = s, index = i, min = s.all_cost - riders[i].all_cost;
       } else if (s.all_cost - riders[i].all_cost == min &&
-                 s.all_cost < ss.all_cost) {
+                 (s.all_cost < ss.all_cost ||
+                  (s.all_cost == ss.all_cost &&
+                   s.path.size() < ss.path.size()))) {
         ss = s, index = i;
       }
     }
@@ -62,7 +68,7 @@ void Model::step() {
     waiting_order.pop();
   }
   for (auto i = 0; i < riders.size(); i++) {
-    riders[i].step();
+    riders[i].step(__time__);
   }
   __time__++;
 }
