@@ -21,7 +21,7 @@ class Order {
 
 	Order(const unsigned id);
   Order(const unsigned  id,const Point  restaurant,
-        const Point, const unsigned  time);
+        const Point customer, const unsigned  time);
   ~Order();
   bool operator==(const Order& b) const;
   bool operator<(const Order& b) const;
