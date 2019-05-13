@@ -15,12 +15,12 @@ class Rider {
 
   std::set<Order> outdate_orders;
   std::set<Order> finished_orders;
-  std::set<Order> recived_orders;
+  std::set<Order> received_orders;
   std::set<Order> sending_orders;
 
   int all_cost;
 
-  void step();
+  void step(unsigned time);
   void add_order(Order r);
   void change_path(std::queue<Point> path, int all_cost);
   Point get_position();

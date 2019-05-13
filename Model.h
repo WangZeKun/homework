@@ -2,8 +2,8 @@
 #include <cstdio>
 #include <vector>
 #include "Order.h"
-#include "Rider.h"
 #include "Point.h"
+#include "Rider.h"
 #include "RiderFactor.h"
 
 enum ProgramStatus {
@@ -17,11 +17,11 @@ class Model {
   std::queue<Order> waiting_order;
   std::vector<Rider> riders;
 
-  Model( Point init_position);
+  Model(Point init_position);
   void add_order(Order o);
   void step();  //这个函数我写
-  unsigned  num_finished();
-  unsigned  num_outdate();
+  unsigned num_finished();
+  unsigned num_outdate();
   unsigned money();
   unsigned now();
   ProgramStatus statu();
