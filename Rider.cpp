@@ -40,4 +40,4 @@ void Rider::change_path(std::queue<Point> path, int all_cost) {
   this->all_cost = all_cost;
 }
 
-Point Rider::get_position() { return position; }
+Point Rider::get_position() const { return position; }

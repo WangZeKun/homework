@@ -1,71 +1,43 @@
 #include "RiderFactor.h"
 
-Solution cal_solution(Point start, Order new_order,
-                      std::set<Order> received_order,
-                      std::set<Order> sending_order) {
+std::tuple<std::queue<Point>, int> cal_solution(const Rider &r, const Order &new_order) {
   //初始化数据
-  received_order.insert(new_order);
-  int sending_num = sending_order.size();
-  int received_num = received_order.size();
+  int sending_num = r.sending_orders.size();
+  int received_num = r.received_orders.size() + 1;
   int n = sending_num * 2 + received_num;
-  Point P[20];
-  int G[20][20];
-  int from[20][1 << 20];
-  int dp[20][1 << 20];
+  Point *P = new Point[n];
+  int **G = new int*[n];
+  int **from = new int *[n];
+  int **dp = new int *[n];
+  for (size_t i = 0; i < n; i++) {
+    G[i] = new int[n];
+    from[i] = new int[1 << n];
+    dp[i] = new int[1 << n];
+  }
   // std::fill(G, G + 20 * 20, INT_MAX);
   // std::fill(dp, dp + 20 * (1 << 20), INT_MAX);
   // std::fill(from, from + 20, -1);
 
-  int index_from = 0, index_to;
-  for (auto it_from = received_order.begin(); it_from != received_order.end();
-       it_from++) {
-    index_to = 0;
-    for (auto it_to = received_order.begin(); it_to != received_order.end();
-         it_to++) {
-      G[index_to][index_from] = G[index_from][index_to] =
-          Point::get_dis((*it_from).from, (*it_to).to);
-      G[index_to][index_from + 1] = G[index_from + 1][index_to] =
-          Point::get_dis((*it_from).to, (*it_to).to);
-      index_to++;
-    }
-    for (auto it_to = sending_order.begin(); it_to != sending_order.end();
-         it_to++) {
-      G[index_to][index_from] = G[index_from][index_to] =
-          Point::get_dis((*it_from).from, (*it_to).to);
-      G[index_to][index_from + 1] = G[index_from + 1][index_to] =
-          Point::get_dis((*it_from).to, (*it_to).to);
-      index_to++;
-    }
-    dp[index_from][1 << index_from] = 0;
-    dp[index_from + 1][1 << (index_from + 1)] = 0;
+	P[0] = new_order.from;
+  P[1] = new_order.to;
+  int index_from = 2;
+  for (auto it_from = r.received_orders.begin();
+       it_from != r.received_orders.end(); it_from++) {
     P[index_from] = (*it_from).from;
     P[index_from + 1] = (*it_from).to;
     index_from += 2;
   }
-  for (auto it_from = sending_order.begin(); it_from != sending_order.end();
-       it_from++) {
-    index_to = 0;
-    for (auto it_to = received_order.begin(); it_to != received_order.end();
-         it_to++) {
-      G[index_to][index_from] = G[index_from][index_to] =
-          Point::get_dis((*it_from).from, (*it_to).to);
-      G[index_to][index_from + 1] = G[index_from + 1][index_to] =
-          Point::get_dis((*it_from).to, (*it_to).to);
-      index_to++;
+  for (auto it_from = r.sending_orders.begin();
+       it_from != r.sending_orders.end(); it_from++) {
+    P[index_from] = (*it_from).to;
+    index_from += 1;
+  }
+
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < n; j++) {
+      G[i][j] = G[j][i] = Point::get_dis(P[i], P[j]);
     }
-    for (auto it_to = sending_order.begin(); it_to != sending_order.end();
-         it_to++) {
-      G[index_to][index_from] = G[index_from][index_to] =
-          Point::get_dis((*it_from).from, (*it_to).to);
-      G[index_to][index_from + 1] = G[index_from + 1][index_to] =
-          Point::get_dis((*it_from).to, (*it_to).to);
-      index_to++;
-    }
-    dp[index_from][1 << index_from] = 0;
-    dp[index_from + 1][1 << (index_from + 1)] = 0;
-    P[index_from] = (*it_from).from;
-    P[index_from + 1] = (*it_from).to;
-    index_from += 2;
+    dp[i][1 << i] = Point::get_dis(r.get_position(), P[i]);
   }
 
   //列dp方程
@@ -79,26 +51,32 @@ Solution cal_solution(Point start, Order new_order,
             from[j][S] = i;
           }
 
-  Solution s;
-  int index = 0;
-  s.all_cost = INT_MAX;
+  int index = 0, all_cost = INT_MAX;
+  std::queue<Point> path;
   for (int i = 0; i < n; i++) {
-    if (dp[i][1 << (n - 1)] < s.all_cost) {
+    if (dp[i][1 << (n - 1)] < all_cost) {
       index = i;
-      s.all_cost = dp[i][1 << (n - 1)];
+      all_cost = dp[i][1 << (n - 1)];
     }
   }
-  get_path(index, (1 << n) - 1, from, P, s.path);
-  return s;
+  get_path(index, (1 << n) - 1, from, P, path);
+  for (size_t i = 0; i < n; i++) {
+    delete[] G[i];
+    delete[] from[i];
+    delete[] dp[i];
+  }
+  delete[] G;
+  delete[] from;
+  delete[] dp;
+  return {path, all_cost};
 }
 
 bool check(int S, int i, int received_num) {
-  if (i < 2 * received_num && i % 2 == 1 && !S & (1 << i)) return false;
+  if (i < 2 * received_num && i % 2 == 1 && !(S & (1 << i))) return false;
   return true;
 }
 
-void get_path(int end, int S, int from[20][1 << 20], Point P[],
-              std::queue<Point> &path) {
+void get_path(int end, int S, int **from, Point P[], std::queue<Point> &path) {
   if (end != -1) {
     get_path(from[end][S], S ^ 1 << end, from, P, path);
     path.push(P[end]);

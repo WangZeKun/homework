@@ -33,35 +33,32 @@ void Model::add_order(Order o) {
 
 void Model::step() {
   while (!waiting_order.empty()) {
-    Solution ss;
-    int index = -1, min = INT_MAX;
+    std::queue<Point> path;
+    int index = -1, min = INT_MAX, cost = 0;
     for (auto i = 0; i < riders.size(); i++) {
       if (riders[i].sending_orders.size() +
               riders[i].received_orders.size() * 2 >
           18)
         continue;
-      Solution s =
-          cal_solution(riders[i].get_position(), waiting_order.front(),
-                       riders[i].received_orders, riders[i].sending_orders);
-      if (s.all_cost - riders[i].all_cost < min) {
-        ss = s, index = i, min = s.all_cost - riders[i].all_cost;
-      } else if (s.all_cost - riders[i].all_cost == min &&
-                 (s.all_cost < ss.all_cost ||
-                  (s.all_cost == ss.all_cost &&
-                   s.path.size() < ss.path.size()))) {
-        ss = s, index = i;
+      auto [path_tmp, cost_tmp] =
+          cal_solution(riders[i],waiting_order.front());
+      if (cost - riders[i].all_cost < min) {
+        path = path_tmp, cost = cost_tmp, index = i,
+        min = cost - riders[i].all_cost;
+      } else if (cost_tmp - riders[i].all_cost == min &&
+                 (cost_tmp < cost ||
+                  (cost_tmp == cost && path_tmp.size() < path.size()))) {
+        path = path_tmp, cost = cost_tmp, index = i;
       }
     }
-    if (ss.all_cost > 60 && money() >= 300) {
+    if (cost > 60 && money() >= 300) {
       add_rider();
-      Solution s = cal_solution(riders[riders.size() - 1].get_position(),
-                                waiting_order.front(),
-                                riders[riders.size() - 1].received_orders,
-                                riders[riders.size() - 1].sending_orders);
-      riders[riders.size() - 1].change_path(s.path, s.all_cost);
+      auto [path_tmp, cost_tmp] =
+          cal_solution(riders[riders.size() - 1], waiting_order.front());
+      riders[riders.size() - 1].change_path(path_tmp, cost_tmp);
       riders[riders.size() - 1].received_orders.insert(waiting_order.front());
     } else {
-      riders[index].change_path(ss.path, ss.all_cost);
+      riders[index].change_path(path, cost);
       riders[index].received_orders.insert(waiting_order.front());
     }
     // waiting_order.erase(waiting_order.begin());
