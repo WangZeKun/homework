@@ -33,6 +33,12 @@
     <ClCompile Include="RiderFactor.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="InputServer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="OutputServer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Order.h">
@@ -48,6 +54,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="RiderFactor.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="InputServer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="OutputServer.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

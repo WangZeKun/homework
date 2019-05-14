@@ -6,13 +6,60 @@ Rider::~Rider() { std::cout << "delete Rider"; }
 
 void Rider::step(unsigned time) {
   auto next = path.front();
-  int x = position.x - next.y;
-  int y = position.x - next.y;
-  if (!x) x = 1;
-  if (!y) y = 1;
-  position.x += x / abs(x);
-  position.y += y / abs(y);
-  while (!path.empty() && Point::is_arrive(position, path.front())) {
+  int x = next.x - position.x;
+  int y = next.y - position.y;
+  int i = 0;
+  if (x > 0 && y > 0) {
+    if ( position.x + 2 != next.x && position.x + 1 != next.x) {
+      position.x = position.x + 2;
+    } 
+	else if ((position.x + 2 == next.x) || (position.x + 1 == next.x && position.y + 1 == next.y)) {
+      position.x = position.x + 1;
+      position.y = position.y + 1;
+    } 
+	else if (position.x + 1 == next.x && position.y + 1 != next.y){
+      position.y = position.y + 2;
+    }
+  } 
+  else if (x < 0 && y < 0) {
+    if (position.x - 2 != next.x && position.x - 1 != next.x) {
+      position.x = position.x - 2;
+    } 
+	else if ((position.x - 2 == next.x) ||
+               (position.x - 1 == next.x && position.y - 1 == next.y)) {
+      position.x = position.x - 1;
+      position.y = position.y - 1;
+    } 
+	else if (position.x - 1 == next.x && position.y - 1 != next.y) {
+      position.y = position.y - 2;
+    }
+  } 
+  else if (x < 0 && y > 0) {
+    if (position.x - 2 != next.x && position.x - 1 != next.x) {
+      position.x = position.x - 2;
+	} else if ((position.x - 2 == next.x) ||
+               (position.x - 1 == next.x && position.y + 1 == next.y)) {
+      position.x = position.x - 1;
+      position.y = position.y + 1;
+    } 
+	else if (position.x - 1 == next.x && position.y + 1 != next.y) {
+          position.y = position.y + 2;
+        }
+  } else if (x > 0 && y < 0) {
+    if (position.x + 2 != next.x && position.x + 1 != next.x) {
+      position.x = position.x + 2;
+    } else if ((position.x + 2 == next.x) ||
+               (position.x + 1 == next.x && position.y - 1 == next.y)) {
+      position.x = position.x + 1;
+      position.y = position.y - 1;
+    } else if (position.x + 1 == next.x && position.y - 1 != next.y) {
+      position.y = position.y - 2;
+    }
+  }
+  
+ 
+	  
+	  while (!path.empty() && Point::is_arrive(position, path.front())) {
     path.pop();
     auto tmp1 = sending_orders.find(Order(next.order_id));
     if (tmp1 != sending_orders.end()) {

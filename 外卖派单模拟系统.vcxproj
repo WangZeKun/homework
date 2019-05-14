@@ -153,16 +153,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="InputServer.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="Order.cpp" />
+    <ClCompile Include="OutputServer.cpp" />
     <ClCompile Include="Point.cpp" />
     <ClCompile Include="Rider.cpp" />
     <ClCompile Include="delivery-mode.cpp" />
     <ClCompile Include="RiderFactor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="InputServer.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Order.h" />
+    <ClInclude Include="OutputServer.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Rider.h" />
     <ClInclude Include="RiderFactor.h" />
