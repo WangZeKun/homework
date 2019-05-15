@@ -20,11 +20,11 @@ class Model {
   Model(Point init_position);
   void add_order(Order o);
   void step();  //这个函数我写
-  unsigned num_finished() const;
-  unsigned num_outdate() const;
-  unsigned money() const;
-  unsigned now() const;
-  ProgramStatus statu() const;
+  unsigned num_finished();
+  unsigned num_outdate();
+  unsigned money();
+  unsigned now();
+  ProgramStatus statu();
 
  private:
   void add_rider();

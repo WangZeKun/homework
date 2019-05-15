@@ -3,28 +3,20 @@
 
 #include <iostream>
 #include "Model.h"
-#include "InputServer.h"
-#include "OutputServer.h"
-#include <io.h>
-#include <fcntl.h>
 
-
+//对，这两个是段淋的
+void input(Model &m);
+void output(Model &m);
 
 int main() {
-	_setmode(_fileno(stdout), _O_U16TEXT);
-  InputServer in;
-  OutputServer out;
   Model m = Model(Point(1, 2));
-  if (!in.InFile) {
-    std::wcout << L"没有找到文件, 使用手动输入模式" << std::endl;
-    in.inputFromConsole();
-  } else {
-    in.inputFromFile();
-  }
   while (m.statu() == GOOD) {
-    in.inputData(m);
+    input(m);
     m.step();
-    out.PrintToConsole(m);
-    out.PrintToFile(m);
+    output(m);
   }
 }
+
+void input(Model &m) {}
+
+void output(Model &m) {}

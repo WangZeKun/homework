@@ -3,7 +3,7 @@
 Model::Model(Point init_position)
     : init_position(init_position), __statu__(GOOD) {}
 
-unsigned Model::num_outdate() const{
+unsigned Model::num_outdate() {
   int outdate = 0;
   for (int i = 0; i < riders.size(); i++) {
     outdate = outdate + riders[i].outdate_orders.size();
@@ -11,7 +11,7 @@ unsigned Model::num_outdate() const{
   return outdate;
 }
 
-unsigned Model::money() const{
+unsigned Model::money() {
   int total = 1000 - riders.size() * 300;
   for (int i = 0; i < riders.size(); i++) {
     total = total + 10 * riders[i].finished_orders.size();
@@ -20,9 +20,9 @@ unsigned Model::money() const{
   return total;
 }
 
-unsigned Model::now() const{ return __time__; }
+unsigned Model::now() { return __time__; }
 
-ProgramStatus Model::statu() const{ return __statu__; }
+ProgramStatus Model::statu() { return __statu__; }
 
 void Model::add_rider() { riders.push_back(Rider(init_position)); }
 
@@ -34,7 +34,7 @@ void Model::add_order(Order o) {
 void Model::step() {
   while (!waiting_order.empty()) {
     std::queue<Point> path;
-    int index = -1, min = INT_MAX, cost = 100;
+    int index = -1, min = INT_MAX, cost = 0;
     for (auto i = 0; i < riders.size(); i++) {
       if (riders[i].sending_orders.size() +
               riders[i].received_orders.size() * 2 >
@@ -70,7 +70,7 @@ void Model::step() {
   __time__++;
 }
 
-unsigned Model::num_finished() const{
+unsigned Model::num_finished() {
   int finished = 0;
   for (int i = 0; i < riders.size(); i++) {
     finished = finished + riders[i].finished_orders.size();
