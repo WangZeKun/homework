@@ -1,9 +1,14 @@
 #pragma once
+#include <cstdlib>
+#include <fstream>
 #include "Model.h"
-#include"Point.h"
+#include "Point.h"
 class OutputServer {
  public:
+  std::ofstream OutFile;
+
   OutputServer();
   ~OutputServer();
-  static PrintToConsole(const Model &m);
+  void PrintToConsole(const Model &m);
+  void PrintToFile(const Model &m);
 };
