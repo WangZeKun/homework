@@ -41,8 +41,8 @@ void Model::step() {
           18)
         continue;
       auto [path_tmp, cost_tmp] =
-          cal_solution(riders[i],waiting_order.front());
-      if (cost - riders[i].all_cost < min) {
+          cal_solution(riders[i], waiting_order.front(), __time__);
+      if (cost_tmp - riders[i].all_cost < min) {
         path = path_tmp, cost = cost_tmp, index = i,
         min = cost - riders[i].all_cost;
       } else if (cost_tmp - riders[i].all_cost == min &&
@@ -53,8 +53,8 @@ void Model::step() {
     }
     if (cost > 60 && money() >= 300) {
       add_rider();
-      auto [path_tmp, cost_tmp] =
-          cal_solution(riders[riders.size() - 1], waiting_order.front());
+      auto [path_tmp, cost_tmp] = cal_solution(riders[riders.size() - 1],
+                                               waiting_order.front(), __time__);
       riders[riders.size() - 1].change_path(path_tmp, cost_tmp);
       riders[riders.size() - 1].received_orders.insert(waiting_order.front());
     } else {
@@ -70,7 +70,7 @@ void Model::step() {
   __time__++;
 }
 
-unsigned Model::num_finished() const{
+unsigned Model::num_finished() const {
   int finished = 0;
   for (int i = 0; i < riders.size(); i++) {
     finished = finished + riders[i].finished_orders.size();

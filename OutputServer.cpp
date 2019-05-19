@@ -30,16 +30,16 @@ void OutputServer::PrintToConsole(const Model &m) {
     for (j = 0; j < 17; j++) {
       switch (position[i][j]) {
         case 0:
-          std::wcout << L" ";
+          std::wcout << L"  ";
           break;
         case 1:  //房子
-          std::wcout << L"⌂";
+          std::wcout << L"⌂ ";
           break;
         case 2:
-          std::wcout << L"\033[01;34m⌂\033[0m";  //餐馆
+          std::wcout << L"\033[01;34m⌂ \033[0m";  //餐馆
           break;
         case 3:
-          std::wcout << L"\033[01;31m⌂\033[0m";  //食客
+          std::wcout << L"\033[01;31m⌂ \033[0m";  //食客
           break;
         case 4:
           std::wcout << L'⛹';  //骑手

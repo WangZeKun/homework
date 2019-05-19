@@ -12,23 +12,23 @@ void Rider::step(unsigned time) {
   auto next = path.front();
   int x = next.x - position.x;
   int y = next.y - position.y;
-  if (x == 0 && y > 0) {
+  if (x == 0) {
     position.x += position.x == 16 ? -1 : 1;
     position.y += y > 0 ? 1 : -1;
-  } else if (y == 0 && x > 0) {
+  } else if (y == 0) {
     position.y += position.y == 16 ? -1 : 1;
     position.x += x > 0 ? 1 : -1;
-  } else if (abs(x) > 2) {
+  } else if (abs(x) > 2 && x % 2 == 0) {
     position.x += abs(x) / x * 2;
-  } else if (abs(y) > 2) {
+  } else if (abs(y) > 2 && y % 2 == 0) {
     position.y += abs(y) / y * 2;
-  } else if ((abs(x) == 2 && abs(y) != 1) || (abs(y) == 2 && abs(x) != 1)) {
+  } else if (position.x == 1 && x < 0 || position.x == 15 && x > 0) {
+    position.y += abs(y) / y * 2;
+  } else if (position.y == 1 && y < 0 || position.y == 15 && y > 0) {
+    position.x += abs(x) / x * 2;
+  } else {
     position.x += abs(x) / x;
     position.y += abs(y) / y;
-  } else if (abs(x) > 1) {
-    position.x += abs(x) / x * 2;
-  } else if (abs(y) > 1) {
-    position.y += abs(y) / y * 2;
   }
 
   while (!path.empty() && Point::is_arrive(position, path.front())) {
@@ -50,6 +50,9 @@ void Rider::step(unsigned time) {
       }
     }
     path.pop();
+  }
+  if (all_cost >= 2) {
+    all_cost -= 2;
   }
 }
 
