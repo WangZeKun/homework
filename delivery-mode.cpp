@@ -21,7 +21,7 @@ int main() {
   } else {
     in.inputFromFile();
   }
-  while (m.statu() == GOOD) {
+  while (m.statu() == GOOD || (m.statu() == FINISHED) && in.q.size() != 0) {
     in.inputData(m);
     m.step();
     out.PrintToConsole(m);
