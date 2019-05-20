@@ -9,7 +9,8 @@
 enum ProgramStatus {
   GOOD,
   BREAK,  // 破产
-  REVOKE  //吊销执照
+  REVOKE, //吊销执照
+  END  //程序结束
 };
 
 class Model {

@@ -3,7 +3,7 @@
 Model::Model(Point init_position)
     : init_position(init_position), __statu__(GOOD) {}
 
-unsigned Model::num_outdate() const{
+unsigned Model::num_outdate() const {
   int outdate = 0;
   for (int i = 0; i < riders.size(); i++) {
     outdate = outdate + riders[i].outdate_orders.size();
@@ -11,7 +11,7 @@ unsigned Model::num_outdate() const{
   return outdate;
 }
 
-unsigned Model::money() const{
+unsigned Model::money() const {
   int total = 1000 - riders.size() * 300;
   for (int i = 0; i < riders.size(); i++) {
     total = total + 10 * riders[i].finished_orders.size();
@@ -20,9 +20,9 @@ unsigned Model::money() const{
   return total;
 }
 
-unsigned Model::now() const{ return __time__; }
+unsigned Model::now() const { return __time__; }
 
-ProgramStatus Model::statu() const{ return __statu__; }
+ProgramStatus Model::statu() const { return __statu__; }
 
 void Model::add_rider() { riders.push_back(Rider(init_position)); }
 
@@ -68,6 +68,19 @@ void Model::step() {
     riders[i].step(__time__);
   }
   __time__++;
+  int flag = 0;
+  for (int i = 0; i < riders.size(); i++) {
+    if (riders[i].received_orders.size() != 0 ||
+        riders[i].sending_orders.size() != 0) {
+      flag = 1;
+    }
+  }
+  if (flag == 0) {
+    __statu__ = END;
+  }
+  if (money()<0) {
+    __statu__ = BREAK;
+  }
 }
 
 unsigned Model::num_finished() const {
