@@ -27,4 +27,6 @@ int main() {
     out.PrintToConsole(m);
     out.PrintToFile(m);
   }
-}
+  if (m.statu() != GOOD) {
+	 
+  }
