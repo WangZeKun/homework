@@ -76,7 +76,7 @@ void Model::step() {
     }
   }
   if (flag == 0) {
-    __statu__ = END;
+    __statu__ = FINISHED;
   }
   if (money() < 0) {
     __statu__ = BREAK;
