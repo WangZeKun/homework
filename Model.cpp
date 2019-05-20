@@ -3,7 +3,7 @@
 Model::Model(Point init_position)
     : init_position(init_position), __statu__(GOOD) {}
 
-unsigned Model::num_outdate() {
+unsigned Model::num_outdate() const{
   int outdate = 0;
   for (int i = 0; i < riders.size(); i++) {
     outdate = outdate + riders[i].outdate_orders.size();
@@ -11,7 +11,7 @@ unsigned Model::num_outdate() {
   return outdate;
 }
 
-unsigned Model::money() {
+unsigned Model::money() const{
   int total = 1000 - riders.size() * 300;
   for (int i = 0; i < riders.size(); i++) {
     total = total + 10 * riders[i].finished_orders.size();
@@ -20,9 +20,9 @@ unsigned Model::money() {
   return total;
 }
 
-unsigned Model::now() { return __time__; }
+unsigned Model::now() const{ return __time__; }
 
-ProgramStatus Model::statu() { return __statu__; }
+ProgramStatus Model::statu() const{ return __statu__; }
 
 void Model::add_rider() { riders.push_back(Rider(init_position)); }
 
@@ -34,15 +34,15 @@ void Model::add_order(Order o) {
 void Model::step() {
   while (!waiting_order.empty()) {
     std::queue<Point> path;
-    int index = -1, min = INT_MAX, cost = 0;
+    int index = -1, min = INT_MAX, cost = 100;
     for (auto i = 0; i < riders.size(); i++) {
       if (riders[i].sending_orders.size() +
               riders[i].received_orders.size() * 2 >
           18)
         continue;
       auto [path_tmp, cost_tmp] =
-          cal_solution(riders[i],waiting_order.front());
-      if (cost - riders[i].all_cost < min) {
+          cal_solution(riders[i], waiting_order.front(), __time__);
+      if (cost_tmp - riders[i].all_cost < min) {
         path = path_tmp, cost = cost_tmp, index = i,
         min = cost - riders[i].all_cost;
       } else if (cost_tmp - riders[i].all_cost == min &&
@@ -53,8 +53,8 @@ void Model::step() {
     }
     if (cost > 60 && money() >= 300) {
       add_rider();
-      auto [path_tmp, cost_tmp] =
-          cal_solution(riders[riders.size() - 1], waiting_order.front());
+      auto [path_tmp, cost_tmp] = cal_solution(riders[riders.size() - 1],
+                                               waiting_order.front(), __time__);
       riders[riders.size() - 1].change_path(path_tmp, cost_tmp);
       riders[riders.size() - 1].received_orders.insert(waiting_order.front());
     } else {
@@ -70,7 +70,7 @@ void Model::step() {
   __time__++;
 }
 
-unsigned Model::num_finished() {
+unsigned Model::num_finished() const {
   int finished = 0;
   for (int i = 0; i < riders.size(); i++) {
     finished = finished + riders[i].finished_orders.size();

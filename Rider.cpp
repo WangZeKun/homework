@@ -2,81 +2,57 @@
 
 Rider::Rider(Point position) : position(position), all_cost(0) {}
 
-Rider::~Rider() { std::cout << "delete Rider"; }
+Rider::~Rider() {}
 
 void Rider::step(unsigned time) {
+  if (path.empty()) {
+    return;
+  }
+
   auto next = path.front();
   int x = next.x - position.x;
   int y = next.y - position.y;
-  int i = 0;
-  if (x > 0 && y > 0) {
-    if ( position.x + 2 != next.x && position.x + 1 != next.x) {
-      position.x = position.x + 2;
-    } 
-	else if ((position.x + 2 == next.x) || (position.x + 1 == next.x && position.y + 1 == next.y)) {
-      position.x = position.x + 1;
-      position.y = position.y + 1;
-    } 
-	else if (position.x + 1 == next.x && position.y + 1 != next.y){
-      position.y = position.y + 2;
-    }
-  } 
-  else if (x < 0 && y < 0) {
-    if (position.x - 2 != next.x && position.x - 1 != next.x) {
-      position.x = position.x - 2;
-    } 
-	else if ((position.x - 2 == next.x) ||
-               (position.x - 1 == next.x && position.y - 1 == next.y)) {
-      position.x = position.x - 1;
-      position.y = position.y - 1;
-    } 
-	else if (position.x - 1 == next.x && position.y - 1 != next.y) {
-      position.y = position.y - 2;
-    }
-  } 
-  else if (x < 0 && y > 0) {
-    if (position.x - 2 != next.x && position.x - 1 != next.x) {
-      position.x = position.x - 2;
-	} else if ((position.x - 2 == next.x) ||
-               (position.x - 1 == next.x && position.y + 1 == next.y)) {
-      position.x = position.x - 1;
-      position.y = position.y + 1;
-    } 
-	else if (position.x - 1 == next.x && position.y + 1 != next.y) {
-          position.y = position.y + 2;
-        }
-  } else if (x > 0 && y < 0) {
-    if (position.x + 2 != next.x && position.x + 1 != next.x) {
-      position.x = position.x + 2;
-    } else if ((position.x + 2 == next.x) ||
-               (position.x + 1 == next.x && position.y - 1 == next.y)) {
-      position.x = position.x + 1;
-      position.y = position.y - 1;
-    } else if (position.x + 1 == next.x && position.y - 1 != next.y) {
-      position.y = position.y - 2;
-    }
+  if (x == 0) {
+    position.x += position.x == 16 ? -1 : 1;
+    position.y += y > 0 ? 1 : -1;
+  } else if (y == 0) {
+    position.y += position.y == 16 ? -1 : 1;
+    position.x += x > 0 ? 1 : -1;
+  } else if (abs(x) > 2 && x % 2 == 0) {
+    position.x += abs(x) / x * 2;
+  } else if (abs(y) > 2 && y % 2 == 0) {
+    position.y += abs(y) / y * 2;
+  } else if (position.x == 1 && x < 0 || position.x == 15 && x > 0) {
+    position.y += abs(y) / y * 2;
+  } else if (position.y == 1 && y < 0 || position.y == 15 && y > 0) {
+    position.x += abs(x) / x * 2;
+  } else {
+    position.x += abs(x) / x;
+    position.y += abs(y) / y;
   }
-  
- 
-	  
-	  while (!path.empty() && Point::is_arrive(position, path.front())) {
-    path.pop();
-    auto tmp1 = sending_orders.find(Order(next.order_id));
-    if (tmp1 != sending_orders.end()) {
-      if (time - (*tmp1).time <= 30) {
-        finished_orders.insert(*tmp1);
-      } else {
-        outdate_orders.insert(*tmp1);
+
+  while (!path.empty() && Point::is_arrive(position, path.front())) {
+    if (path.front().type == FROM) {
+      auto tmp2 = received_orders.find(Order(path.front().order_id));
+      if (tmp2 != received_orders.end()) {
+        sending_orders.insert(*tmp2);
+        received_orders.erase(tmp2);
       }
-      sending_orders.erase(tmp1);
+    } else {
+      auto tmp1 = sending_orders.find(Order(path.front().order_id));
+      if (tmp1 != sending_orders.end()) {
+        if (time - (*tmp1).time <= 30) {
+          finished_orders.insert(*tmp1);
+        } else {
+          outdate_orders.insert(*tmp1);
+        }
+        sending_orders.erase(tmp1);
+      }
     }
-    auto tmp2 = sending_orders.find(Order(next.order_id));
-    if (tmp2 != sending_orders.end()) {
-      finished_orders.insert(*tmp2);
-      sending_orders.erase(tmp2);
-    }
-    sending_orders.insert(*tmp2);
-    received_orders.erase(tmp2);
+    path.pop();
+  }
+  if (all_cost >= 2) {
+    all_cost -= 2;
   }
 }
 
