@@ -4,19 +4,19 @@ Model::Model(Point init_position)
     : init_position(init_position), __statu__(GOOD) {}
 
 unsigned Model::num_outdate() const {
-  int outdate = 0;
+  int outdate = 0; //超时订单数
   for (int i = 0; i < riders.size(); i++) {
     outdate = outdate + riders[i].outdate_orders.size();
-  }
+  }  //遍历所有骑手，统计超时订单数
   return outdate;
 }
 
 unsigned Model::money() const {
-  int total = 1000 - riders.size() * 300;
+  int total = 1000 - riders.size() * 300; //当前金钱数
   for (int i = 0; i < riders.size(); i++) {
     total = total + 10 * riders[i].finished_orders.size();
     total = total - 50 * riders[i].outdate_orders.size();
-  }
+  }  //遍历所有骑手，统计当前金钱数
   return total;
 }
 
@@ -68,7 +68,7 @@ void Model::step() {
     riders[i].step(__time__);
   }
   __time__++;
-  int flag = 0;
+  int flag = 0; //标记当前状态的变量，当flag==0时，接单和派单数都为零，程序结束
   for (int i = 0; i < riders.size(); i++) {
     if (riders[i].received_orders.size() != 0 ||
         riders[i].sending_orders.size() != 0) {
@@ -78,15 +78,15 @@ void Model::step() {
   if (flag == 0) {
     __statu__ = END;
   }
-  if (money()<0) {
+  if (money() < 0) {
     __statu__ = BREAK;
-  }
+  }  //金钱数小于零时破产
 }
 
 unsigned Model::num_finished() const {
-  int finished = 0;
+  int finished = 0;  //订单完成数
   for (int i = 0; i < riders.size(); i++) {
     finished = finished + riders[i].finished_orders.size();
-  }
+  }  //遍历所有骑手，统计完成的订单数
   return finished;
 }
