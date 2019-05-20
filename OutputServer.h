@@ -1,5 +1,5 @@
 #pragma once
-#include <cstdlib>
+#include <windows.h> 
 #include <fstream>
 #include "Model.h"
 #include "Point.h"
@@ -11,4 +11,7 @@ class OutputServer {
   ~OutputServer();
   void PrintToConsole(const Model &m);
   void PrintToFile(const Model &m);
+
+ private:
+  void optimizationConsole();
 };

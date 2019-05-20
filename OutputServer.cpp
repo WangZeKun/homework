@@ -5,7 +5,7 @@ OutputServer::OutputServer() { OutFile = std::ofstream("./output.txt"); }
 OutputServer::~OutputServer() {}
 
 void OutputServer::PrintToConsole(const Model &m) {
-  system("cls");
+  optimizationConsole();
   int i, j, position[17][17] = {0};
   Point point;
   for (i = 0; i < 17; i += 2) {
@@ -50,11 +50,12 @@ void OutputServer::PrintToConsole(const Model &m) {
     std::wcout << std::endl;
   }
 
-  std::wcout << L"时间：" << m.now() << std::endl;
-  std::wcout << L"钱：" << m.money() << std::endl;
-  std::wcout << L"接单数：" << m.num_finished() + m.num_outdate() << std::endl;
-  std::wcout << L"超时数：" << m.num_outdate() << std::endl;
-  std::wcout << L"完成数：" << m.num_finished() << std::endl;
+  std::wcout << L"时间：" << m.now() << "        " << std::endl;
+  std::wcout << L"钱：" << m.money() << "        " << std::endl;
+  std::wcout << L"接单数：" << m.num_finished() + m.num_outdate() << "        "
+             << std::endl;
+  std::wcout << L"超时数：" << m.num_outdate() << "        " << std::endl;
+  std::wcout << L"完成数：" << m.num_finished() << "        " << std::endl;
 }
 
 void OutputServer::PrintToFile(const Model &m) {
@@ -68,4 +69,12 @@ void OutputServer::PrintToFile(const Model &m) {
     OutFile << "骑手" << i << "位置：" << point.x << " " << point.y
             << std::endl;
   }
+}
+
+void OutputServer::optimizationConsole() {
+  CONSOLE_CURSOR_INFO cci;
+  cci.bVisible = 0;
+  cci.dwSize = sizeof(cci);
+  SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {0, 0});
+  SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cci);
 }
