@@ -1,11 +1,18 @@
 ﻿#include "OutputServer.h"
 
-OutputServer::OutputServer() { OutFile = std::ofstream("./output.txt"); }
+OutputServer::OutputServer() {
+  OutFile = std::ofstream("./output.txt");
+
+  CONSOLE_CURSOR_INFO cci;
+  cci.bVisible = 0;
+  cci.dwSize = sizeof(cci);
+  SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cci);
+}
 
 OutputServer::~OutputServer() {}
 
 void OutputServer::PrintToConsole(const Model &m) {
-  optimizationConsole();
+  gotoxy(0,0);
   int i, j, position[17][17] = {0};
   Point point;
   for (i = 0; i < 17; i += 2) {
@@ -52,7 +59,7 @@ void OutputServer::PrintToConsole(const Model &m) {
 
   std::wcout << L"时间：" << m.now() << "        " << std::endl;
   std::wcout << L"钱：" << m.money() << "        " << std::endl;
-  std::wcout << L"接单数：" << m.num_finished() + m.num_outdate() << "        "
+  std::wcout << L"接单数：" << m.num_sending() + m.num_finished() + m.num_outdate() << "        "
              << std::endl;
   std::wcout << L"超时数：" << m.num_outdate() << "        " << std::endl;
   std::wcout << L"完成数：" << m.num_finished() << "        " << std::endl;
@@ -61,7 +68,7 @@ void OutputServer::PrintToConsole(const Model &m) {
 void OutputServer::PrintToFile(const Model &m) {
   OutFile << "时间：" << m.now() << std::endl;
   OutFile << "钱：" << m.money() << std::endl;
-  OutFile << "接单数：" << m.num_finished() + m.num_outdate() << std::endl;
+  OutFile << "接单数：" << m.num_sending() + m.num_finished() + m.num_outdate() << std::endl;
   OutFile << "超时数：" << m.num_outdate() << std::endl;
   OutFile << "完成数：" << m.num_finished() << std::endl;
   for (size_t i = 0; i < m.riders.size(); i++) {
@@ -71,10 +78,6 @@ void OutputServer::PrintToFile(const Model &m) {
   }
 }
 
-void OutputServer::optimizationConsole() {
-  CONSOLE_CURSOR_INFO cci;
-  cci.bVisible = 0;
-  cci.dwSize = sizeof(cci);
-  SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {0, 0});
-  SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cci);
+void OutputServer::gotoxy(int x, int y) {
+  SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {x, y});
 }

@@ -42,10 +42,12 @@ void Rider::step(unsigned time) {
       auto tmp1 = sending_orders.find(Order(path.front().order_id));
       if (tmp1 != sending_orders.end()) {
         if (time - (*tmp1).time <= 30) {
-          finished_orders.insert(*tmp1);
+          finished_orders++;
+        } else if(time-(*tmp1).time <= 60){
+          outdate_orders++;
         } else {
-          outdate_orders.insert(*tmp1);
-        }
+          illegal_orders++;        
+				}
         sending_orders.erase(tmp1);
       }
     }

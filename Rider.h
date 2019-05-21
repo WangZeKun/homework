@@ -13,8 +13,9 @@ class Rider {
   Rider(Point position);
   ~Rider();
 
-  std::set<Order> outdate_orders;
-  std::set<Order> finished_orders;
+	int illegal_orders;
+  int outdate_orders;
+  int finished_orders;
   std::set<Order> received_orders;
   std::set<Order> sending_orders;
 

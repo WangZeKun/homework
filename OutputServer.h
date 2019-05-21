@@ -13,5 +13,5 @@ class OutputServer {
   void PrintToFile(const Model &m);
 
  private:
-  void optimizationConsole();
+  void gotoxy(int x,int y);
 };

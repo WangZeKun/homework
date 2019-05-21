@@ -10,7 +10,7 @@ enum ProgramStatus {
   GOOD,   //正常运行
   BREAK,  // 破产
   REVOKE, //吊销执照
-  END  //程序结束
+  FINISHED  //没有正在派送的订单
 };
 
 class Model {
@@ -21,6 +21,7 @@ class Model {
   Model(Point init_position);
   void add_order(Order o); //添加新接的订单
   void step();  //
+  unsigned num_sending() const;  //返回已接单加派送中的订单
   unsigned num_finished() const;  //返回已完成的订单
   unsigned num_outdate() const;  //返回超时的订单
   unsigned money() const; //返回现有的钱数
@@ -33,4 +34,7 @@ class Model {
 
   ProgramStatus __statu__; //记录当前状态
   unsigned int __time__ = 0;
+  void check_is_break();
+  void check_is_revoke();
+  void check_is_finished();
 };
