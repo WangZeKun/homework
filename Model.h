@@ -23,6 +23,7 @@ class Model {
   void step();  //这个函数我写
   unsigned num_finished() const;
   unsigned num_outdate() const;
+  void aaa();
   unsigned money() const;
   unsigned now() const;
   ProgramStatus statu() const;
