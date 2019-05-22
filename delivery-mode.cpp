@@ -1,17 +1,15 @@
 ﻿// 外卖派单模拟系统.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
 //
 
-#include <iostream>
-#include "Model.h"
-#include "InputServer.h"
-#include "OutputServer.h"
-#include <io.h>
 #include <fcntl.h>
-
-
+#include <io.h>
+#include <iostream>
+#include "InputServer.h"
+#include "Model.h"
+#include "OutputServer.h"
 
 int main() {
-	_setmode(_fileno(stdout), _O_U16TEXT);
+  _setmode(_fileno(stdout), _O_U16TEXT);
   InputServer in;
   OutputServer out;
   Model m = Model(Point(1, 2));
@@ -28,5 +26,5 @@ int main() {
     out.PrintToFile(m);
   }
   if (m.statu() != GOOD) {
-	 
   }
+}
