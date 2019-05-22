@@ -5,9 +5,9 @@
 #include<cmath>
 #include<tuple>
 #include<algorithm>
-#include"Point.h"
-#include "Order.h"
-#include "Rider.h"
+#include "point.h"
+#include "order.h"
+#include "rider.h"
 
 
 // 算法类，主要实现了状压dp，来解每一个分问题
@@ -38,7 +38,7 @@ class Algorithm {
   //	 int received_num 此骑手接单的订单数
   //输出：
   //		bool 是否合法
-  static bool check(int S, int i, int received_num);
+  static bool Check(int S, int i, int received_num);
 
   //由from矩阵递归得到路径
   //输入：
@@ -47,7 +47,7 @@ class Algorithm {
   // int **from 矩阵
   // Point P[] 所有的要到达的点
   // std::queue<Point> &path 存储路径的队列
-  static void get_path(int end, int S, int **from, Point P[],
+  static void GetPath(int end, int S, int **from, Point P[],
                        std::queue<Point> &path);
 };
 

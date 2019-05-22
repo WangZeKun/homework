@@ -1,13 +1,13 @@
 #pragma once
 #include <queue>
-#include "Model.h"
-#include "Order.h"
-#include "Point.h"
+#include "model.h"
+#include "order.h"
+#include "point.h"
 class InputServer {
  public:
   InputServer();
-  void inputFromConsole(Model &m);
-  void inputData();
+  void InputFromConsole(Model &m);
+  void InputData();
   ~InputServer();
   std::queue<Order> q;
 };

@@ -3,8 +3,8 @@
 std::tuple<std::queue<Point>, int> Algorithm::cal_solution(
     const Rider &r, const Order &new_order, const int time) {
 
-  int sending_num = r.sending_orders.size();					//正在派送的订单
-  int received_num = r.received_orders.size() + 1;    //已接单，但还没派送的订单 (加入新order计算）
+  int sending_num = r.sending_orders().size();					//正在派送的订单
+  int received_num = r.received_orders().size() + 1;    //已接单，但还没派送的订单 (加入新order计算）
   int n = sending_num + received_num * 2;             //所有要经过的点的数量
   Point *P = new Point[n];                            //所有的点
   int *last_time = new int[n];                        //所有的点在不超时到达的情况下的最后时刻
@@ -34,15 +34,15 @@ std::tuple<std::queue<Point>, int> Algorithm::cal_solution(
 	//初始化P
   P[0] = new_order.from;  //给新增加的订单单独赋值
   P[1] = new_order.to;
-  for (auto it_from = r.received_orders.begin();
-       it_from != r.received_orders.end(); it_from++) {
+  for (auto it_from = r.received_orders().begin();
+       it_from != r.received_orders().end(); it_from++) {
     P[index_from] = (*it_from).from;
     P[index_from + 1] = (*it_from).to;
     last_time[index_from + 1] = (30 - time - (*it_from).time) * 2; //乘2以翻译成cost
     index_from += 2;
   }
-  for (auto it_from = r.sending_orders.begin();
-       it_from != r.sending_orders.end(); it_from++) {
+  for (auto it_from = r.sending_orders().begin();
+       it_from != r.sending_orders().end(); it_from++) {
     P[index_from] = (*it_from).to;
     last_time[index_from] = (30 - (time - (*it_from).time)) * 2;
     index_from += 1;
@@ -51,15 +51,15 @@ std::tuple<std::queue<Point>, int> Algorithm::cal_solution(
 	//给G和dp赋值
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
-      G[i][j] = G[j][i] = Point::get_dis(P[i], P[j]);
+      G[i][j] = G[j][i] = Point::GetDistant(P[i], P[j]);
     }
-    dp[i][1 << i] = Point::get_dis(r.get_position(), P[i]);
+    dp[i][1 << i] = Point::GetDistant(r.position(), P[i]);
   }
 
   //列dp方程;
   for (int S = 0; S < (1 << n); S++)
     for (int i = 0; i < n; ++i)
-      if (S & (1 << i) && check(S, i, received_num)) //判断此状态是否合法
+      if (S & (1 << i) && Check(S, i, received_num)) //判断此状态是否合法
         for (int j = 0; j < n; ++j)
           if (!(S & (1 << j)) && G[i][j] != INTMAX) { // 判断是否到过j 且i j 是否可达
             if (dp[j][S | (1 << j)] > dp[i][S] + G[i][j]) { //判断是否需要更新
@@ -95,7 +95,7 @@ std::tuple<std::queue<Point>, int> Algorithm::cal_solution(
 
 	//拿到路径
   std::queue<Point> path;
-  get_path(index, (1 << n) - 1, from, P, path);
+  GetPath(index, (1 << n) - 1, from, P, path);
 	
 	//释放资源
   for (size_t i = 0; i < n; i++) {
@@ -112,15 +112,15 @@ std::tuple<std::queue<Point>, int> Algorithm::cal_solution(
   return {path, all_cost};
 }
 
-bool Algorithm::check(int S, int i, int received_num) {
+bool Algorithm::Check(int S, int i, int received_num) {
   if (i < 2 * received_num && i % 2 == 1 && !(S & (1 << (i - 1)))) return false;
   return true;
 }
 
-void Algorithm::get_path(int end, int S, int **from, Point P[],
+void Algorithm::GetPath(int end, int S, int **from, Point P[],
                          std::queue<Point> &path) {
   if (end != -1) {
-    get_path(from[end][S], S ^ 1 << end, from, P, path);
+    GetPath(from[end][S], S ^ 1 << end, from, P, path);
     path.push(P[end]);
   }
 }

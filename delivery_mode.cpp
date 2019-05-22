@@ -4,9 +4,9 @@
 #include <fcntl.h>
 #include <io.h>
 #include <iostream>
-#include "InputServer.h"
-#include "Model.h"
-#include "OutputServer.h"
+#include "input_server.h"
+#include "model.h"
+#include "output_server.h"
 
 int main() {
   _setmode(_fileno(stdout), _O_U16TEXT);
@@ -21,7 +21,7 @@ int main() {
   }
   while (m.statu() == GOOD || (m.statu() == FINISHED) && in.q.size() != 0) {
     in.inputData(m);
-    m.step();
+    m.Step();
     out.PrintToConsole(m);
     out.PrintToFile(m);
   }

@@ -1,10 +1,10 @@
-#include "InputServer.h"
+#include "input_server.h"
 
 InputServer::InputServer() {}
 
 void InputServer::inputFromConsole(Model &m) {
-  while (q.front().time == m.now()) {
-    m.add_order(q.front());//对应时间接单
+  while (q.front().time == m.time()) {
+    m.AddOrder(q.front());//对应时间接单
     q.pop();//删除
   }
 }

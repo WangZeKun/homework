@@ -1,4 +1,4 @@
-﻿#include "OutputServer.h"
+﻿#include "output_server.h"
 
 OutputServer::OutputServer() {
   OutFile = std::ofstream("./output.txt");
@@ -21,17 +21,17 @@ void OutputServer::PrintToConsole(const Model &m) {
     }
   }
   for (size_t i = 0; i < m.riders.size(); i++) {
-    for (auto it = m.riders[i].received_orders.begin();
-         it != m.riders[i].received_orders.end(); it++) {
+    for (auto it = m.riders[i].received_orders().begin();
+         it != m.riders[i].received_orders().end(); it++) {
       position[(*it).from.x][(*it).from.y] = 2;
       position[(*it).to.x][(*it).to.y] = 3;
     }
-    for (auto it = m.riders[i].sending_orders.begin();
-         it != m.riders[i].sending_orders.end(); it++) {
+    for (auto it = m.riders[i].sending_orders().begin();
+         it != m.riders[i].sending_orders().end(); it++) {
       position[(*it).from.x][(*it).from.y] = 2;
       position[(*it).to.x][(*it).to.y] = 3;
     }
-    position[m.riders[i].get_position().x][m.riders[i].get_position().y] = 4;
+    position[m.riders[i].position().x][m.riders[i].position().y] = 4;
   }
   for (i = 0; i < 17; i++) {
     for (j = 0; j < 17; j++) {
@@ -57,7 +57,7 @@ void OutputServer::PrintToConsole(const Model &m) {
     std::wcout << std::endl;
   }
 
-  std::wcout << L"时间：" << m.now() << "        " << std::endl;
+  std::wcout << L"时间：" << m.time() << "        " << std::endl;
   std::wcout << L"钱：" << m.money() << "        " << std::endl;
   std::wcout << L"接单数：" << m.num_sending() + m.num_finished() + m.num_outdate() << "        "
              << std::endl;
@@ -66,13 +66,13 @@ void OutputServer::PrintToConsole(const Model &m) {
 }
 
 void OutputServer::PrintToFile(const Model &m) {
-  OutFile << "时间：" << m.now() << std::endl;
+  OutFile << "时间：" << m.time() << std::endl;
   OutFile << "钱：" << m.money() << std::endl;
   OutFile << "接单数：" << m.num_sending() + m.num_finished() + m.num_outdate() << std::endl;
   OutFile << "超时数：" << m.num_outdate() << std::endl;
   OutFile << "完成数：" << m.num_finished() << std::endl;
   for (size_t i = 0; i < m.riders.size(); i++) {
-    auto point = m.riders[i].get_position();
+    auto point = m.riders[i].position();
     OutFile << "骑手" << i << "位置：" << point.x << " " << point.y
             << std::endl;
   }

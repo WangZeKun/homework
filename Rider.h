@@ -1,33 +1,75 @@
 #pragma once
+#include <algorithm>
 #include <cstdio>
 #include <iostream>
 #include <queue>
 #include <set>
-#include <algorithm>
-#include "Order.h"
-#include "Point.h"
-#include "Path.h"
+#include "order.h"
+#include "point.h"
 
+//骑手类
+//用来处理骑手的动作和信息
 class Rider {
  public:
+  //构造函数
+  //传入骑手的初始位置
   Rider(Point position);
   ~Rider();
 
-	int illegal_orders;
-  int outdate_orders;
-  int finished_orders;
-  std::set<Order> received_orders;
-  std::set<Order> sending_orders;
+  //骑手运行 一单位时间
+  //	1. 行走
+  //  2. 如果到达一个地方，则记录,更新订单数
+  void Step(unsigned time);
 
-  int all_cost;
+  // 添加一个订单
+  void AddOrder(Order r);
 
-  void step(unsigned time);
-  void add_order(Order r);
-  void change_path(std::queue<Point> path, int all_cost);
-  Point get_position() const;
+  //更新骑手的总花费和路径
+  void ChangePath(std::queue<Point> path, int all_cost);
+
+  //返回骑手的位置信息
+  Point position() const;
+
+  //返回非法（运送时间超过60）订单数
+  int illegal_orders() const;
+
+  //返回超时（运送时间超过30）订单数
+  int outdate_orders() const;
+
+  //返回已完成订单数
+  int finished_orders() const;
+
+	//返回已接单订单
+	std::set<Order> received_orders() const;
+
+	//返回运送中订单
+	std::set<Order> sending_orders() const;
+
+	//返回总花费
+	int all_cost() const;
 
  private:
-  std::queue<Point> path;
-  Point position;
-};
+  //骑手路径
+  std::queue<Point> path_;
 
+  //骑手位置
+  Point position_;
+
+  //非法（运送时间超过60）订单数
+  int illegal_orders_;
+
+  //超时（运送时间超过30）订单数
+  int outdate_orders_;
+
+  //已完成订单数
+  int finished_orders_;
+
+  //花费总时间
+  int all_cost_;
+
+  //已接单订单
+  std::set<Order> received_orders_;
+
+  //运送中订单
+  std::set<Order> sending_orders_;
+};

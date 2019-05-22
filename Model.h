@@ -1,14 +1,16 @@
 #pragma once
 #include <cstdio>
 #include <vector>
-#include "Order.h"
-#include "Point.h"
-#include "Rider.h"
+#include "order.h"
+#include "point.h"
+#include "rider.h"
 #include "algorithm.h"
 
+
+//记录程序的运行状态
 enum ProgramStatus {
   GOOD,     //正常运行
-  BREAK,    // 破产
+  BREAK,    //破产
   REVOKE,   //吊销执照
   FINISHED  //没有正在派送的订单
 };
@@ -23,13 +25,13 @@ class Model {
   //初始化Model
   Model(Point init_position);
 
-  //添加新接的订单
-  void add_order(Order o);
+  //添加新的订单
+  void AddOrder(Order o);
 
   // 行走一个单位时间
   // 干的事情包含：1. 将当前时间的订单分配给骑手
   //							 2. 每个骑手向前行进一格
-  void step();
+  void Step();
 
   //返回已接单加派送中的订单
   unsigned num_sending() const;
@@ -44,7 +46,7 @@ class Model {
   unsigned money() const;
 
   //返回当前时间
-  unsigned now() const;
+  unsigned time() const;
 
   //返回当前状态
   ProgramStatus statu() const;
@@ -56,24 +58,24 @@ class Model {
   std::vector<Rider> riders;
  private:
   //添加新招聘的骑手
-  void add_rider();
+  void AddRider();
 
-	//检查是否破产，如果破产，则标记__statu__
-  void check_is_break();
+	//检查是否破产，如果破产，则标记statu_
+  void CheckIsBreak();
 
-	//检查是否被吊销执照,如果是，则标记__statu__
-  void check_is_revoke();
+	//检查是否被吊销执照,如果是，则标记statu_
+  void CheckIsRevoke();
 
-	//检查是否没有正在派送的订单，如果是，则标记__statu__
-  void check_is_finished();
+	//检查是否没有正在派送的订单，如果是，则标记statu_
+  void CheckIsFinished();
 
   //骑手初始位置
-  Point init_position;
+  Point init_position_;
 
   //当前状态
-  ProgramStatus __statu__;
+  ProgramStatus statu_;
 
   //当前时间
-  unsigned int __time__;
+  unsigned int time_;
 
 };

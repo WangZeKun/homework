@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -153,23 +153,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="InputServer.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="Order.cpp" />
-    <ClCompile Include="OutputServer.cpp" />
-    <ClCompile Include="Point.cpp" />
-    <ClCompile Include="Rider.cpp" />
-    <ClCompile Include="delivery-mode.cpp" />
     <ClCompile Include="algorithm.cpp" />
+    <ClCompile Include="delivery_mode.cpp" />
+    <ClCompile Include="input_server.cpp" />
+    <ClCompile Include="model.cpp" />
+    <ClCompile Include="order.cpp" />
+    <ClCompile Include="output_server.cpp" />
+    <ClCompile Include="point.cpp" />
+    <ClCompile Include="rider.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="InputServer.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="Order.h" />
-    <ClInclude Include="OutputServer.h" />
-    <ClInclude Include="Point.h" />
-    <ClInclude Include="Rider.h" />
     <ClInclude Include="algorithm.h" />
+    <ClInclude Include="input_server.h" />
+    <ClInclude Include="model.h" />
+    <ClInclude Include="order.h" />
+    <ClInclude Include="output_server.h" />
+    <ClInclude Include="point.h" />
+    <ClInclude Include="rider.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,8 +1,8 @@
 #pragma once
 #include <windows.h> 
 #include <fstream>
-#include "Model.h"
-#include "Point.h"
+#include "model.h"
+#include "point.h"
 class OutputServer {
  public:
   std::ofstream OutFile;
