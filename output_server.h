@@ -14,5 +14,5 @@ class OutputServer {
   void PrintToFile(const Model &m); //打印到文件
   void PrintToScreen(); //打印欢迎界面
  private:
-  void gotoxy(int x,int y);
+  void gotoxy(short x,short y);
 };

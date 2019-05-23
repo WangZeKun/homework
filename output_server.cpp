@@ -97,6 +97,6 @@ void OutputServer::PrintToFile(const Model &m) {
   }
 }
 
-void OutputServer::gotoxy(int x, int y) {
+void OutputServer::gotoxy(short x, short y) {
   SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), {x, y});
 }

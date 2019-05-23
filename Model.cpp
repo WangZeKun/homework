@@ -91,10 +91,10 @@ void Model::Step() {
       auto [path_tmp, cost_tmp] = Algorithm::cal_solution(
           riders[riders.size() - 1], waiting_order.front(), time_);
       riders[riders.size() - 1].ChangePath(path_tmp, cost_tmp);
-      riders[riders.size() - 1].received_orders.insert(waiting_order.front());
+      riders[riders.size() - 1].AddOrder(waiting_order.front());
     } else {
       riders[index].ChangePath(path, cost);
-      riders[index].received_orders.insert(waiting_order.front());
+      riders[index].AddOrder(waiting_order.front());
     }
     // waiting_order.erase(waiting_order.begin());
     waiting_order.pop();
