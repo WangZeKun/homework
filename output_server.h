@@ -2,8 +2,8 @@
 #include <windows.h> 
 #include <fstream>
 #include <cstdlib>
-#include "Model.h"
-#include "Point.h" 
+#include "model.h"
+#include "point.h" 
 class OutputServer {
  public:
   std::ofstream OutFile;
@@ -14,5 +14,5 @@ class OutputServer {
   void PrintToFile(const Model &m); //打印到文件
   void PrintToScreen(); //打印欢迎界面
  private:
-  void optimizationConsole();
+  void gotoxy(int x,int y);
 };
