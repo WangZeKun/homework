@@ -15,6 +15,7 @@ int main() {
   InputServer in;
   OutputServer out;
   Model m = Model(Point(1, 2));
+  out.PrintToScreen();
   if (!in.InFile) {
     std::wcout << L"没有找到文件, 使用手动输入模式" << std::endl;
     in.inputFromConsole();
