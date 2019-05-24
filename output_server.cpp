@@ -20,9 +20,9 @@ void OutputServer::PrintToScreen() {
   getchar();
   system("cls");
 }
-//初始化地图
 void OutputServer::PrintToConsole(const Model &m) {
-  gotoxy(0,0);
+	//初始化地图
+  std::vector<int> outdate_orders;
   int i, j, position[17][17] = {0};
   Point point;
   for (i = 0; i < 17; i += 2) {
@@ -44,6 +44,9 @@ void OutputServer::PrintToConsole(const Model &m) {
     }
     position[m.riders[i].position().x][m.riders[i].position().y] = 4;
   }
+
+	//重设打印位置
+  gotoxy(0,0);
   //打印图例
   std::wcout << L"餐馆：" << L"\033[01;34m⌂ \033[0m"
              << L"    ";  //餐馆对应的表示
@@ -59,13 +62,13 @@ void OutputServer::PrintToConsole(const Model &m) {
           std::wcout << L"  ";
           break;
         case 1:  //房子
-          std::wcout << L"⌂";
+          std::wcout << L"⌂ ";
           break;
         case 2:
-          std::wcout << L"\033[01;34m⌂\033[0m";  //餐馆
+          std::wcout << L"\033[01;34m⌂ \033[0m";  //餐馆
           break;
         case 3:
-          std::wcout << L"\033[01;31m⌂\033[0m";  //食客
+          std::wcout << L"\033[01;31m⌂ \033[0m";  //食客
           break;
         case 4:
           std::wcout << L'⛹';  //骑手
@@ -76,18 +79,23 @@ void OutputServer::PrintToConsole(const Model &m) {
     std::wcout << std::endl;
   }
 
+	gotoxy(40, 6);
   std::wcout << L"时间：" << m.time() << "        " << std::endl;
+	gotoxy(40, 7);
   std::wcout << L"钱：" << m.money() << "        " << std::endl;
-  std::wcout << L"接单数：" << m.num_sending() + m.num_finished() + m.num_outdate() << "        "
+	gotoxy(40, 8);
+  std::wcout << L"接单数：" << m.num_all() << "        "
              << std::endl;
+	gotoxy(40, 9);
   std::wcout << L"超时数：" << m.num_outdate() << "        " << std::endl;
+	gotoxy(40, 10);
   std::wcout << L"完成数：" << m.num_finished() << "        " << std::endl;
 }
 
 void OutputServer::PrintToFile(const Model &m) {
   OutFile << "时间：" << m.time() << std::endl;
   OutFile << "钱：" << m.money() << std::endl;
-  OutFile << "接单数：" << m.num_sending() + m.num_finished() + m.num_outdate() << std::endl;
+  OutFile << "接单数：" << m.num_all() << std::endl;
   OutFile << "超时数：" << m.num_outdate() << std::endl;
   OutFile << "完成数：" << m.num_finished() << std::endl;
   for (size_t i = 0; i < m.riders.size(); i++) {

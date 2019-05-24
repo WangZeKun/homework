@@ -15,16 +15,16 @@ std::tuple<std::queue<Point>, int> Algorithm::cal_solution(
   int index_from = 2;                                 // 标记
 
   //初始化数组
-  for (size_t i = 0; i < n; i++) {
+  for (int i = 0; i < n; i++) {
     last_time[i] = INTMAX;
     G[i] = new int[n];
     is_outdate[i] = new int[(long long)1 << n];
     from[i] = new int[(long long)1 << n];
     dp[i] = new int[(long long)1 << n];
-    for (size_t j = 0; j < n; j++) {
+    for (int j = 0; j < n; j++) {
       G[i][j] = INTMAX;
     }
-    for (size_t j = 0; j < ((long long)1 << n); j++) {
+    for (int j = 0; j < ((long long)1 << n); j++) {
       is_outdate[i][j] = 0;
       from[i][j] = -1;
       dp[i][j] = INTMAX;
@@ -98,7 +98,7 @@ std::tuple<std::queue<Point>, int> Algorithm::cal_solution(
   GetPath(index, (1 << n) - 1, from, P, path);
 	
 	//释放资源
-  for (size_t i = 0; i < n; i++) {
+  for (int i = 0; i < n; i++) {
     delete[] is_outdate[i];
     delete[] G[i];
     delete[] from[i];

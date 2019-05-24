@@ -33,20 +33,23 @@ class Rider {
   //返回非法（运送时间超过60）订单数
   int illegal_orders() const;
 
-  //返回超时（运送时间超过30）订单数
-  int outdate_orders() const;
+  //返回超时（运送时间超过30）订单
+  const std::vector<Order> &outdate_orders() const;
 
-  //返回已完成订单数
-  int finished_orders() const;
+  //返回已完成订单
+  const std::vector<Order> &finished_orders() const;
 
-	//返回已接单订单
-	std::set<Order> received_orders() const;
+  //返回已接单订单
+  const std::set<Order> &received_orders() const;
 
-	//返回运送中订单
-	std::set<Order> sending_orders() const;
+  //返回运送中订单
+  const std::set<Order> &sending_orders() const;
 
-	//返回总花费
-	int all_cost() const;
+  //返回停靠的点
+  const std::vector<Point> &dock_points() const;
+
+  //返回总花费
+  int all_cost() const;
 
  private:
   //骑手路径
@@ -58,18 +61,21 @@ class Rider {
   //非法（运送时间超过60）订单数
   int illegal_orders_;
 
-  //超时（运送时间超过30）订单数
-  int outdate_orders_;
+  //超时（运送时间超过30）订单
+  std::vector<Order> outdate_orders_;
 
-  //已完成订单数
-  int finished_orders_;
-
-  //花费总时间
-  int all_cost_;
+  //已完成订单
+  std::vector<Order> finished_orders_;
 
   //已接单订单
   std::set<Order> received_orders_;
 
   //运送中订单
   std::set<Order> sending_orders_;
+
+  //停靠的点
+  std::vector<Point> dock_points_;
+
+  //花费总时间
+  int all_cost_;
 };

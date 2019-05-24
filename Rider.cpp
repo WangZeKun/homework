@@ -9,28 +9,8 @@ void Rider::Step(unsigned time) {
     return;
   }
 
-  auto next = path_.front();
-  int x = next.x - position_.x;
-  int y = next.y - position_.y;
-  if (x == 0) {
-    position_.x += position_.x == 16 ? -1 : 1;
-    position_.y += y > 0 ? 1 : -1;
-  } else if (y == 0) {
-    position_.y += position_.y == 16 ? -1 : 1;
-    position_.x += x > 0 ? 1 : -1;
-  } else if (abs(x) > 2 && x % 2 == 0) {
-    position_.x += abs(x) / x * 2;
-  } else if (abs(y) > 2 && y % 2 == 0) {
-    position_.y += abs(y) / y * 2;
-  } else if (position_.x == 1 && x < 0 || position_.x == 15 && x > 0) {
-    position_.y += abs(y) / y * 2;
-  } else if (position_.y == 1 && y < 0 || position_.y == 15 && y > 0) {
-    position_.x += abs(x) / x * 2;
-  } else {
-    position_.x += abs(x) / x;
-    position_.y += abs(y) / y;
-  }
-
+	position_ = Point::Move(position_, path_.front());
+	dock_points_.clear();
   while (!path_.empty() && Point::IsArrive(position_, path_.front())) {
     if (path_.front().type == FROM) {
       auto tmp2 = received_orders_.find(Order(path_.front().order_id));
@@ -42,17 +22,30 @@ void Rider::Step(unsigned time) {
       auto tmp1 = sending_orders_.find(Order(path_.front().order_id));
       if (tmp1 != sending_orders_.end()) {
         if (time - (*tmp1).time <= 30) {
-          finished_orders_++;
-        } else if(time-(*tmp1).time <= 60){
-          outdate_orders_++;
-        } else {
-          illegal_orders_++;        
+          finished_orders_.push_back(*tmp1);
 				}
         sending_orders_.erase(tmp1);
       }
     }
+    dock_points_.push_back(path_.front());
     path_.pop();
   }
+
+  for (auto it = received_orders_.begin(); it != received_orders_.end(); it++) {
+    if ((*it).time + 30 < time) {
+      outdate_orders_.push_back(*it);  // 是否超时
+    } else if ((*it).time + 60 < time) {
+      outdate_orders_.push_back(*it);  //是否废单
+    }
+  }
+  for (auto it = sending_orders_.begin(); it != sending_orders_.end(); it++) {
+    if ((*it).time + 30 < time) {
+      outdate_orders_.push_back(*it);  // 是否超时
+    } else if ((*it).time + 60 < time) {
+      outdate_orders_.push_back(*it);  //是否废单
+    }
+  }
+
   if (all_cost_ >= 2) {
     all_cost_ -= 2;
   }
@@ -69,12 +62,14 @@ Point Rider::position() const { return position_; }
 
 int Rider::illegal_orders() const { return illegal_orders_; }
 
-int Rider::outdate_orders() const { return outdate_orders_; }
+const std::vector<Order> &Rider::outdate_orders() const { return outdate_orders_; }
 
-int Rider::finished_orders() const { return finished_orders_; }
+const std::vector<Order> &Rider::finished_orders() const { return finished_orders_; }
 
-std::set<Order> Rider::received_orders() const { return received_orders_; }
+const std::set<Order> &Rider::received_orders() const { return received_orders_; }
 
-std::set<Order> Rider::sending_orders() const { return sending_orders_; }
+const std::set<Order> &Rider::sending_orders() const { return sending_orders_; }
+
+const std::vector<Point>& Rider::dock_points() const { return dock_points_; }
 
 int Rider::all_cost() const { return all_cost_; }

@@ -1,5 +1,7 @@
 #include "order.h"
 
+Order::Order():id(-1),time(0),statu(MISS) {}
+
 Order::Order(const unsigned id) : id(id), time(0), statu(MISS) {}
 
 Order::Order(const unsigned id, const Point restaurant, const Point diner,

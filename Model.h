@@ -33,20 +33,20 @@ class Model {
   //							 2. 每个骑手向前行进一格
   void Step();
 
-  //返回已接单加派送中的订单
-  unsigned num_sending() const;
+  //返回已接订单数
+  int num_all() const;
 
   //返回已完成的订单
-  unsigned num_finished() const;
+  int num_finished() const;
 
   //返回超时的订单
-  unsigned num_outdate() const;
+  int num_outdate() const;
 
   //返回现有的钱数
-  unsigned money() const;
+  int money() const;
 
   //返回当前时间
-  unsigned time() const;
+  int time() const;
 
   //返回当前状态
   ProgramStatus statu() const;
@@ -56,17 +56,18 @@ class Model {
 
   //骑手
   std::vector<Rider> riders;
+
  private:
   //添加新招聘的骑手
   void AddRider();
 
-	//检查是否破产，如果破产，则标记statu_
+  //检查是否破产，如果破产，则标记statu_
   void CheckIsBreak();
 
-	//检查是否被吊销执照,如果是，则标记statu_
+  //检查是否被吊销执照,如果是，则标记statu_
   void CheckIsRevoke();
 
-	//检查是否没有正在派送的订单，如果是，则标记statu_
+  //检查是否没有正在派送的订单，如果是，则标记statu_
   void CheckIsFinished();
 
   //骑手初始位置
@@ -75,7 +76,9 @@ class Model {
   //当前状态
   ProgramStatus statu_;
 
-  //当前时间
-  unsigned int time_;
+  //已接订单数
+  int num_all_;
 
+  //当前时间
+  int time_;
 };
