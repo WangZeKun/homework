@@ -7,6 +7,7 @@
 #include "point.h" 
 
 
+static const char* BLANK = "                ";
 //输出程序运行结果
 class OutputServer {
  public:
@@ -20,3 +21,4 @@ class OutputServer {
  private:
   void gotoxy(short x, short y);
 };
+

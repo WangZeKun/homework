@@ -39,6 +39,12 @@ class Rider {
   //返回已完成订单
   const std::vector<Order> &finished_orders() const;
 
+  //返回超时（运送时间超过30）订单编号
+  const std::vector<int> &outdate_orders_now() const;
+
+  //返回已完成订单编号
+  const std::vector<int> &finished_orders_now() const;
+
   //返回已接单订单
   const std::set<Order> &received_orders() const;
 
@@ -66,6 +72,12 @@ class Rider {
 
   //已完成订单
   std::vector<Order> finished_orders_;
+
+  //当前时间超时（运送时间超过30）订单编号
+  std::vector<int> outdate_orders_now_;
+
+  //当前时间完成订单编号
+  std::vector<int> finished_orders_now_;
 
   //已接单订单
   std::set<Order> received_orders_;

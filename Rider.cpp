@@ -10,7 +10,9 @@ void Rider::Step(unsigned time) {
   }
 
 	position_ = Point::Move(position_, path_.front());
-	dock_points_.clear();
+  dock_points_.clear();
+  finished_orders_now_.clear();
+  outdate_orders_now_.clear();
   while (!path_.empty() && Point::IsArrive(position_, path_.front())) {
     if (path_.front().type == FROM) {
       auto tmp2 = received_orders_.find(Order(path_.front().order_id));
@@ -23,7 +25,8 @@ void Rider::Step(unsigned time) {
       if (tmp1 != sending_orders_.end()) {
         if (time - (*tmp1).time <= 30) {
           finished_orders_.push_back(*tmp1);
-				}
+          finished_orders_now_.push_back((*tmp1).id);
+        }
         sending_orders_.erase(tmp1);
       }
     }
@@ -34,15 +37,17 @@ void Rider::Step(unsigned time) {
   for (auto it = received_orders_.begin(); it != received_orders_.end(); it++) {
     if ((*it).time + 30 < time) {
       outdate_orders_.push_back(*it);  // 是否超时
+      outdate_orders_now_.push_back((*it).id);
     } else if ((*it).time + 60 < time) {
-      outdate_orders_.push_back(*it);  //是否废单
+      illegal_orders_++;  //是否废单
     }
   }
   for (auto it = sending_orders_.begin(); it != sending_orders_.end(); it++) {
     if ((*it).time + 30 < time) {
       outdate_orders_.push_back(*it);  // 是否超时
+      outdate_orders_now_.push_back((*it).id);
     } else if ((*it).time + 60 < time) {
-      outdate_orders_.push_back(*it);  //是否废单
+      illegal_orders_++;  //是否废单
     }
   }
 
@@ -62,14 +67,28 @@ Point Rider::position() const { return position_; }
 
 int Rider::illegal_orders() const { return illegal_orders_; }
 
-const std::vector<Order> &Rider::outdate_orders() const { return outdate_orders_; }
+const std::vector<Order> &Rider::outdate_orders() const {
+  return outdate_orders_;
+}
 
-const std::vector<Order> &Rider::finished_orders() const { return finished_orders_; }
+const std::vector<Order> &Rider::finished_orders() const {
+  return finished_orders_;
+}
 
-const std::set<Order> &Rider::received_orders() const { return received_orders_; }
+const std::vector<int> &Rider::outdate_orders_now() const {
+  return outdate_orders_now_;
+}
+
+const std::vector<int> &Rider::finished_orders_now() const {
+  return finished_orders_now_;
+}
+
+const std::set<Order> &Rider::received_orders() const {
+  return received_orders_;
+}
 
 const std::set<Order> &Rider::sending_orders() const { return sending_orders_; }
 
-const std::vector<Point>& Rider::dock_points() const { return dock_points_; }
+const std::vector<Point> &Rider::dock_points() const { return dock_points_; }
 
 int Rider::all_cost() const { return all_cost_; }
