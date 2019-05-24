@@ -17,7 +17,7 @@ void OutputServer::PrintToScreen() {
              << std::endl; 
   std::wcout << std::endl;
   std::wcout << L"请输入回车键开始运行" << std::endl;
-  getchar();
+  getchar();//读取回车键
   system("cls");
 }
 void OutputServer::PrintToConsole(const Model &m) {
@@ -28,7 +28,7 @@ void OutputServer::PrintToConsole(const Model &m) {
   for (i = 0; i < 17; i += 2) {
     for (j = 0; j < 17; j += 2) {
       position[i][j] = 1;
-    }
+    }//将每个坐标初始化，标记为1
   }
   //获取位置信息
   for (size_t i = 0; i < m.riders.size(); i++) {
@@ -39,10 +39,10 @@ void OutputServer::PrintToConsole(const Model &m) {
     }
     for (auto it = m.riders[i].sending_orders().begin();
          it != m.riders[i].sending_orders().end(); it++) {
-      position[(*it).from.x][(*it).from.y] = 2;
-      position[(*it).to.x][(*it).to.y] = 3;
+      position[(*it).from.x][(*it).from.y] = 2;//标记餐馆位置
+      position[(*it).to.x][(*it).to.y] = 3;//标记食客位置
     }
-    position[m.riders[i].position().x][m.riders[i].position().y] = 4;
+    position[m.riders[i].position().x][m.riders[i].position().y] = 4;//标记骑手位置
   }
 
 	//重设打印位置
@@ -61,8 +61,8 @@ void OutputServer::PrintToConsole(const Model &m) {
         case 0:
           std::wcout << L"  ";
           break;
-        case 1:  //房子
-          std::wcout << L"⌂ ";
+        case 1:  //普通房屋
+          std::wcout << L"⌂";
           break;
         case 2:
           std::wcout << L"\033[01;34m⌂ \033[0m";  //餐馆
@@ -78,6 +78,7 @@ void OutputServer::PrintToConsole(const Model &m) {
     }
     std::wcout << std::endl;
   }
+//打印当前运行结果
 
 	gotoxy(40, 6);
   std::wcout << L"时间：" << m.time() << "        " << std::endl;
