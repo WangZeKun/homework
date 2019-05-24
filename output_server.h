@@ -4,6 +4,9 @@
 #include <cstdlib>
 #include "model.h"
 #include "point.h" 
+
+
+//输出程序运行结果
 class OutputServer {
  public:
   std::ofstream OutFile;
