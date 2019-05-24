@@ -34,6 +34,7 @@ class Order {
         const unsigned time);
   ~Order();
 
+	//²Ù×÷·ûÖØÔØ
   bool operator==(const Order& b) const;
   bool operator<(const Order& b) const;
   Order operator=(Order& b);
