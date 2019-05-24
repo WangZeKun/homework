@@ -1,7 +1,11 @@
 #include "model.h"
 
 Model::Model(Point init_position)
-    : init_position_(init_position), statu_(GOOD),time_(0),num_all_(0) {}
+    : init_position_(init_position), statu_(GOOD),time_(0),num_all_(0) {
+  AddRider();
+  AddRider();
+  AddRider();
+}
 
 
 
@@ -52,7 +56,7 @@ void Model::Step() {
 
   while (!waiting_order.empty()) { //添加所有的未派发订单
     std::queue<Point> path;
-    int index = -1, min = INT_MAX, cost = 100;
+    int index = -1, min = INT_MAX, cost = 100, is_outdate = 1;
     for (auto i = 0; i < riders.size(); i++) {
       // 检查是否超过一个骑手的接单数
       if (riders[i].sending_orders().size() +
@@ -64,7 +68,7 @@ void Model::Step() {
       //如果骑手添加订单，所花费的cost 和 所走路径，并找出路径改变量最小的骑手
       auto [path_tmp, cost_tmp] = Algorithm::cal_solution(
           riders[i], waiting_order.front(), time_);  // c++17 标准
-      if (min == INT_MAX || (cost > 60 && cost_tmp < cost)) {
+      if (min == INT_MAX || (cost > 2 * OUTDATE_TIME && cost_tmp < cost)) {
         path = path_tmp, cost = cost_tmp, index = i,
         min = cost - riders[i].all_cost();
       } else if (cost_tmp - riders[i].all_cost() < min) {
@@ -77,7 +81,7 @@ void Model::Step() {
       }
     }
     // 如果有超时的嫌疑而且可以买下一个骑手，则新雇佣一个骑手
-    if (cost > 60 && money() >= 300) {
+    if (cost > 2 * OUTDATE_TIME && money() >= 300) {
       AddRider();  //添加骑手
       auto [path_tmp, cost_tmp] = Algorithm::cal_solution(
           riders[riders.size() - 1], waiting_order.front(), time_);
@@ -124,7 +128,7 @@ int Model::num_outdate() const {
 }
 
 int Model::money() const {
-  int total = 1000 - riders.size() * 300;  //当前金钱数
+  int total = INIT_MONEY - riders.size() * 300;  //当前金钱数
   for (int i = 0; i < riders.size(); i++) {
     total = total + 10 * riders[i].finished_orders().size();
     total = total - 50 * riders[i].outdate_orders().size();

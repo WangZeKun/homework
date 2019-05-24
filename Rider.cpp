@@ -1,18 +1,39 @@
 #include "rider.h"
 
-Rider::Rider(Point position) : position_(position), all_cost_(0),finished_orders_(0),illegal_orders_(0),outdate_orders_(0){}
+Rider::Rider(Point position)
+    : position_(position),
+      all_cost_(0),
+      finished_orders_(0),
+      illegal_orders_(0),
+      outdate_orders_(0) {}
 
 Rider::~Rider() {}
 
 void Rider::Step(unsigned time) {
+  for (auto it = received_orders_.begin(); it != received_orders_.end(); it++) {
+    if ((*it).time + OUTDATE_TIME < time) {
+      outdate_orders_.push_back(*it);  // 是否超时
+      outdate_orders_now_.push_back((*it).id);
+    } else if ((*it).time + ILLEGAL_TIME < time) {
+      illegal_orders_++;  //是否废单
+    }
+  }
+  for (auto it = sending_orders_.begin(); it != sending_orders_.end(); it++) {
+    if ((*it).time + OUTDATE_TIME < time) {
+      outdate_orders_.push_back(*it);  // 是否超时
+      outdate_orders_now_.push_back((*it).id);
+    } else if ((*it).time + ILLEGAL_TIME < time) {
+      illegal_orders_++;  //是否废单
+    }
+  }
+  dock_points_.clear();
+  finished_orders_now_.clear();
+  outdate_orders_now_.clear();
   if (path_.empty()) {
     return;
   }
 
-	position_ = Point::Move(position_, path_.front());
-  dock_points_.clear();
-  finished_orders_now_.clear();
-  outdate_orders_now_.clear();
+  position_ = Point::Move(position_, path_.front());
   while (!path_.empty() && Point::IsArrive(position_, path_.front())) {
     if (path_.front().type == FROM) {
       auto tmp2 = received_orders_.find(Order(path_.front().order_id));
@@ -23,7 +44,7 @@ void Rider::Step(unsigned time) {
     } else {
       auto tmp1 = sending_orders_.find(Order(path_.front().order_id));
       if (tmp1 != sending_orders_.end()) {
-        if (time - (*tmp1).time <= 30) {
+        if (time - (*tmp1).time <= OUTDATE_TIME) {
           finished_orders_.push_back(*tmp1);
           finished_orders_now_.push_back((*tmp1).id);
         }
@@ -32,23 +53,6 @@ void Rider::Step(unsigned time) {
     }
     dock_points_.push_back(path_.front());
     path_.pop();
-  }
-
-  for (auto it = received_orders_.begin(); it != received_orders_.end(); it++) {
-    if ((*it).time + 30 < time) {
-      outdate_orders_.push_back(*it);  // 是否超时
-      outdate_orders_now_.push_back((*it).id);
-    } else if ((*it).time + 60 < time) {
-      illegal_orders_++;  //是否废单
-    }
-  }
-  for (auto it = sending_orders_.begin(); it != sending_orders_.end(); it++) {
-    if ((*it).time + 30 < time) {
-      outdate_orders_.push_back(*it);  // 是否超时
-      outdate_orders_now_.push_back((*it).id);
-    } else if ((*it).time + 60 < time) {
-      illegal_orders_++;  //是否废单
-    }
   }
 
   if (all_cost_ >= 2) {

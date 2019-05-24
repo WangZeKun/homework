@@ -8,6 +8,7 @@
 #include "point.h"
 #include "order.h"
 #include "rider.h"
+#include "constant.h"
 
 
 // 算法类，主要实现了状压dp，来解每一个分问题
@@ -26,9 +27,8 @@ class Algorithm {
   //		int cost 总的花费
   //注意：
   //		状压dp的算法复杂度为O(N^2*2^N),注意限制骑手的订单数，防止超时；
-  static std::tuple<std::queue<Point>, int> cal_solution(const Rider &r,
-                                                         const Order &new_order,
-                                                         const int time);
+  static std::tuple<std::queue<Point>, int> cal_solution(
+      const Rider &r, const Order &new_order, const int time);
 
  private:
   //检查这个状态是否合法，即是否此订单餐厅的到达在食客之前
@@ -48,7 +48,7 @@ class Algorithm {
   // Point P[] 所有的要到达的点
   // std::queue<Point> &path 存储路径的队列
   static void GetPath(int end, int S, int **from, Point P[],
-                       std::queue<Point> &path);
+                      std::queue<Point> &path);
 };
 
 const static int INTMAX = INT_MAX / 2;

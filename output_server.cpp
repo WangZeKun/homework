@@ -11,14 +11,39 @@ OutputServer::OutputServer() {
 
 OutputServer::~OutputServer() {}
 //欢迎界面
-void OutputServer::PrintToScreen() {
-  std::wcout << L"用户您好," << std::endl;
-  std::wcout << L"欢迎您使用外卖订单派送系统 ~o(≧口≦) o ~" << std::endl;
+void OutputServer::EndPrint(const Model &m) { 
+	std::wcout << L"程序运行结束！" << std::endl;
+  if (m.statu() == FINISHED) {
+    std::wcout << L"已完成所有订单！" << std::endl;
+  } else if (m.statu() == BREAK) {
+    std::wcout << L"已破产！" << std::endl;
+  } else if (m.statu() == REVOKE) {
+    std::wcout << L"已被吊销执照！" << std::endl;
+  }
+
   std::wcout << std::endl;
-  std::wcout << L"请输入回车键开始运行" << std::endl;
-  getchar();  //读取回车键
-  system("cls");
+  std::wcout << L"总金钱：" << m.money() + 300 * m.riders.size() << std::endl;
+  std::wcout << L"总接单数：" << m.num_all() << std::endl;
+  std::wcout << L"总完成数：" << m.num_finished() << std::endl;
+  std::wcout << L"总超时数：" << m.num_outdate() << std::endl;
+
+  std::wcout << std::endl;
+  std::wcout << L"一共有" << m.riders.size() << L"个骑手" << std::endl;
+  for (auto i = 0; i < m.riders.size(); i++) {
+    std::wcout << L"骑手" << i << L":" << std::endl;
+    std::wcout << L"接单数："
+               << m.riders[i].finished_orders().size() +
+                      m.riders[i].outdate_orders().size() +
+                      m.riders[i].received_orders().size() +
+                      m.riders[i].sending_orders().size()
+               << std::endl;
+    std::wcout << L"完成数：" << m.riders[i].finished_orders().size()
+               << std::endl;
+    std::wcout << L"超时数：" << m.riders[i].outdate_orders().size()
+               << std::endl;
+  }
 }
+
 void OutputServer::PrintToConsole(const Model &m) {
   //初始化地图
   std::vector<int> outdate_orders;   //当前时间的超时订单
@@ -31,8 +56,8 @@ void OutputServer::PrintToConsole(const Model &m) {
                           m.riders[i].outdate_orders_now().begin(),
                           m.riders[i].outdate_orders_now().end());
     finished_orders.insert(finished_orders.end(),
-                          m.riders[i].finished_orders_now().begin(),
-                          m.riders[i].finished_orders_now().end());
+                           m.riders[i].finished_orders_now().begin(),
+                           m.riders[i].finished_orders_now().end());
   }
 
   for (i = 0; i < 17; i += 2) {
@@ -132,8 +157,8 @@ void OutputServer::PrintToFile(const Model &m) {
                           m.riders[i].outdate_orders_now().begin(),
                           m.riders[i].outdate_orders_now().end());
     finished_orders.insert(finished_orders.end(),
-                          m.riders[i].finished_orders_now().begin(),
-                          m.riders[i].finished_orders_now().end());
+                           m.riders[i].finished_orders_now().begin(),
+                           m.riders[i].finished_orders_now().end());
   }
 
   OutFile << "时间：" << m.time() << std::endl;
@@ -146,7 +171,7 @@ void OutputServer::PrintToFile(const Model &m) {
   OutFile << std::endl;
   OutFile << "超时数：" << m.num_outdate() << " 罚单：";
   for (auto i = 0; i < outdate_orders.size(); i++) {
-    OutFile<< outdate_orders[i] << L" ";
+    OutFile << outdate_orders[i] << L" ";
   }
   OutFile << std::endl;
   for (size_t i = 0; i < m.riders.size(); i++) {

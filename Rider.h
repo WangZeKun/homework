@@ -6,6 +6,7 @@
 #include <set>
 #include "order.h"
 #include "point.h"
+#include "constant.h"
 
 //骑手类
 //用来处理骑手的动作和信息
@@ -90,4 +91,5 @@ class Rider {
 
   //花费总时间
   int all_cost_;
+
 };

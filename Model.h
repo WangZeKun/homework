@@ -5,6 +5,7 @@
 #include "point.h"
 #include "rider.h"
 #include "algorithm.h"
+#include "constant.h"
 
 
 //记录程序的运行状态

@@ -31,24 +31,27 @@ std::tuple<std::queue<Point>, int> Algorithm::cal_solution(
     }
   }
 
-	//初始化P
+  //初始化P
   P[0] = new_order.from;  //给新增加的订单单独赋值
   P[1] = new_order.to;
+  last_time[1] =
+      OUTDATE_TIME * 2 - 2;  // -2 以忽略曼哈顿距离估算带来的误差，下面同上
   for (auto it_from = r.received_orders().begin();
        it_from != r.received_orders().end(); it_from++) {
     P[index_from] = (*it_from).from;
     P[index_from + 1] = (*it_from).to;
-    last_time[index_from + 1] = (30 - time - (*it_from).time) * 2; //乘2以翻译成cost
+    last_time[index_from + 1] =
+        (OUTDATE_TIME - (time - (*it_from).time)) * 2 - 2;  //乘2以翻译成cost
     index_from += 2;
   }
   for (auto it_from = r.sending_orders().begin();
        it_from != r.sending_orders().end(); it_from++) {
     P[index_from] = (*it_from).to;
-    last_time[index_from] = (30 - (time - (*it_from).time)) * 2;
+    last_time[index_from] = (OUTDATE_TIME - (time - (*it_from).time)) * 2 - 2;
     index_from += 1;
   }
 
-	//给G和dp赋值
+  //给G和dp赋值
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
       G[i][j] = G[j][i] = Point::GetDistant(P[i], P[j]);
@@ -59,13 +62,16 @@ std::tuple<std::queue<Point>, int> Algorithm::cal_solution(
   //列dp方程;
   for (int S = 0; S < (1 << n); S++)
     for (int i = 0; i < n; ++i)
-      if (S & (1 << i) && Check(S, i, received_num)) //判断此状态是否合法
+      if (S & (1 << i) && Check(S, i, received_num))  //判断此状态是否合法
         for (int j = 0; j < n; ++j)
-          if (!(S & (1 << j)) && G[i][j] != INTMAX) { // 判断是否到过j 且i j 是否可达
-            if (dp[j][S | (1 << j)] > dp[i][S] + G[i][j]) { //判断是否需要更新
-              if (dp[i][S] + G[i][j] > last_time[j] || is_outdate[i][S]) { //判断此状态是否超时
-                if (dp[j][S | (1 << j)] == INTMAX ||  
-                    is_outdate[j][S | (1 << j)] == 1) { // 判断已超时状态是否可以更新
+          if (!(S & (1 << j)) &&
+              G[i][j] != INTMAX) {  // 判断是否到过j 且i j 是否可达
+            if (dp[j][S | (1 << j)] > dp[i][S] + G[i][j]) {  //判断是否需要更新
+              if (dp[i][S] + G[i][j] > last_time[j] ||
+                  is_outdate[i][S]) {  //判断此状态是否超时
+                if (dp[j][S | (1 << j)] == INTMAX ||
+                    is_outdate[j][S | (1 << j)] ==
+                        1) {  // 判断已超时状态是否可以更新
                   dp[j][S | (1 << j)] = dp[i][S] + G[i][j];
                   from[j][S | (1 << j)] = i;
                   is_outdate[j][S | (1 << j)] = 1;
@@ -78,7 +84,7 @@ std::tuple<std::queue<Point>, int> Algorithm::cal_solution(
             }
           }
 
-	//找出cost最小且不会超时的路径
+  //找出cost最小且不会超时的路径
   int index = 0, all_cost = INTMAX, is_out = 1;
   for (int i = 0; i < n; i++) {
     if (dp[i][(1 << n) - 1] < all_cost &&
@@ -93,11 +99,11 @@ std::tuple<std::queue<Point>, int> Algorithm::cal_solution(
     }
   }
 
-	//拿到路径
+  //拿到路径
   std::queue<Point> path;
   GetPath(index, (1 << n) - 1, from, P, path);
-	
-	//释放资源
+
+  //释放资源
   for (int i = 0; i < n; i++) {
     delete[] is_outdate[i];
     delete[] G[i];
@@ -118,7 +124,7 @@ bool Algorithm::Check(int S, int i, int received_num) {
 }
 
 void Algorithm::GetPath(int end, int S, int **from, Point P[],
-                         std::queue<Point> &path) {
+                        std::queue<Point> &path) {
   if (end != -1) {
     GetPath(from[end][S], S ^ 1 << end, from, P, path);
     path.push(P[end]);
