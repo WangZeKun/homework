@@ -138,6 +138,7 @@ void OutputServer::PrintToConsole(const Model &m) {
     gotoxy(40, 10 + i + 1);
     auto point = m.riders[i].position();
     std::wcout << L"骑手" << i << L"位置：" << point.x << L"," << point.y
+               << L";"
                << L" 停靠：";
     for (auto it = m.riders[i].dock_points().begin();
          it != m.riders[i].dock_points().end(); it++) {
@@ -164,27 +165,28 @@ void OutputServer::PrintToFile(const Model &m) {
   OutFile << "时间：" << m.time() << std::endl;
   OutFile << "钱：" << m.money() << std::endl;
   OutFile << "接单数：" << m.num_all() << std::endl;
-  OutFile << "完成数：" << m.num_finished() << " 结单：";
+  OutFile << "完成数：" << m.num_finished() << L";" << " 结单：";
   for (auto i = 0; i < finished_orders.size(); i++) {
     OutFile << finished_orders[i] << L" ";
   }
-  OutFile << std::endl;
-  OutFile << "超时数：" << m.num_outdate() << " 罚单：";
+  OutFile << L";" << std::endl;
+  OutFile << "超时数：" << m.num_outdate() << L";" << " 罚单：";
   for (auto i = 0; i < outdate_orders.size(); i++) {
     OutFile << outdate_orders[i] << L" ";
   }
-  OutFile << std::endl;
+  OutFile << L";" << std::endl;
   for (size_t i = 0; i < m.riders.size(); i++) {
     auto point = m.riders[i].position();
-    OutFile << "骑手" << i << "位置：" << point.x << " " << point.y
-            << " 停靠：";
+    OutFile << "骑手" << i << "位置：" << point.x << L"，" << point.y 
+            << L";" << " 停靠：";
     for (auto it = m.riders[i].dock_points().begin();
          it != m.riders[i].dock_points().end(); it++) {
-      OutFile << ((*it).type == FROM ? "餐馆" : "食客") << (*it).x << " "
-              << (*it).y << "  ";
+      OutFile << ((*it).type == FROM ? "餐馆" : "食客") << " " << (*it).x
+              << " "
+              << (*it).y;
     }
   }
-  OutFile << std::endl;
+  OutFile << L";" << std::endl;
 }
 
 void OutputServer::gotoxy(short x, short y) {
