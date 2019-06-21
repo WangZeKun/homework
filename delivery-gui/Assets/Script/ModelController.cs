@@ -9,9 +9,9 @@ public class ModelController : MonoBehaviour
     //要操纵的文本框
     public InputField time;
     public InputField money;
-    public InputField num_all;
-    public InputField num_finished;
-    public InputField num_outdated;
+    public InputField numAll;
+    public InputField numFinished;
+    public InputField numOutdated;
 
     //用来计数1s的时间戳
     private float time_;
@@ -34,10 +34,10 @@ public class ModelController : MonoBehaviour
     private static GameObject[,] points = new GameObject[18, 18];
 
     //骑手计数器
-    private int rider_count = 0;
+    private int riderCount = 0;
 
     //将Point坐标转换为Vector坐标
-    private Vector3 PointToVector(Point p)
+    private Vector3 pointToVector(Point p)
     {
         return new Vector3(p.y - 8, 0, -p.x + 8);
     }
@@ -50,16 +50,16 @@ public class ModelController : MonoBehaviour
         m = new Model(new Point(8, 9));
     }
 
-    void MyFixedUpdate()
+    private void myFixedUpdate()
     {
         //更新文本信息
         time.text = m.time().ToString();
         money.text = m.money().ToString();
-        num_all.text = m.num_all().ToString();
-        num_finished.text = m.num_finished().ToString();
-        num_outdated.text = m.num_outdate().ToString();
+        numAll.text = m.num_all().ToString();
+        numFinished.text = m.num_finished().ToString();
+        numOutdated.text = m.num_outdate().ToString();
         //如果停靠，则删除停靠点的标记信息
-        for (int i = 0; i < rider_count; i++)
+        for (int i = 0; i < riderCount; i++)
         {
             foreach (Point p in m.riders[i].dock_points())
             {
@@ -75,18 +75,18 @@ public class ModelController : MonoBehaviour
         //执行下一步操作
         m.Step();
         // 检测骑手变化并添加骑手
-        if (rider_count != m.riders.Count)
+        if (riderCount != m.riders.Count)
         {
-            riders[rider_count] = Instantiate(rider,
-                PointToVector(m.riders[rider_count].position()),
+            riders[riderCount] = Instantiate(rider,
+                pointToVector(m.riders[riderCount].position()),
                 new Quaternion()); // 生成骑手
-            riders[rider_count].transform.GetChild(0).GetComponentInChildren<TextMesh>().text = rider_count.ToString(); //标记第几个骑手
-            nextPoints[rider_count] = m.riders[rider_count].position(); //初始化rider_count
-            rider_count++;
+            riders[riderCount].transform.GetChild(0).GetComponentInChildren<TextMesh>().text = riderCount.ToString(); //标记第几个骑手
+            nextPoints[riderCount] = m.riders[riderCount].position(); //初始化rider_count
+            riderCount++;
         }
 
         //计算骑手的中间位置并转向
-        for (int i = 0; i < rider_count; i++)
+        for (int i = 0; i < riderCount; i++)
         {
             int delta_x = m.riders[i].position().x - nextPoints[i].x;
             int delta_y = m.riders[i].position().y - nextPoints[i].y;
@@ -113,10 +113,10 @@ public class ModelController : MonoBehaviour
     void FixedUpdate()
     {
         //骑手移动
-        for (int i = 0; i < rider_count; i++)
+        for (int i = 0; i < riderCount; i++)
         {
             //判断骑手是否在移动并添加移动动画
-            if (PointToVector(m.riders[i].position()) == riders[i].transform.position)
+            if (pointToVector(m.riders[i].position()) == riders[i].transform.position)
             {
                 riders[i].GetComponent<SimpleCharacterControl>().m_animator.SetFloat("MoveSpeed", 0);
             }
@@ -125,7 +125,7 @@ public class ModelController : MonoBehaviour
                 riders[i].GetComponent<SimpleCharacterControl>().m_animator.SetFloat("MoveSpeed", 0.33F);
             }
             //判断骑手是否到达中间位置，并根据下一步的位置转向
-            if (PointToVector(nextPoints[i]) == riders[i].transform.position)
+            if (pointToVector(nextPoints[i]) == riders[i].transform.position)
             {
                 int delta_x = m.riders[i].position().x - nextPoints[i].x;
                 int delta_y = m.riders[i].position().y - nextPoints[i].y;
@@ -143,13 +143,13 @@ public class ModelController : MonoBehaviour
             //移动骑手
             riders[i].transform.position = Vector3.MoveTowards(
                 riders[i].transform.position,
-                PointToVector(nextPoints[i]),
+                pointToVector(nextPoints[i]),
                 0.020F);
         }
         //每隔一秒更新文本信息，并进行下一步的运算
         if (time_ >= 1)
         {
-            MyFixedUpdate();
+            myFixedUpdate();
             time_ = 0;
         }
         time_ += Time.deltaTime;

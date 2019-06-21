@@ -5088,9 +5088,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   time: {fileID: 640659556}
   money: {fileID: 990264498}
-  num_all: {fileID: 51293522}
-  num_finished: {fileID: 1378101504}
-  num_outdated: {fileID: 1403003109}
+  numAll: {fileID: 51293522}
+  numFinished: {fileID: 1378101504}
+  numOutdated: {fileID: 1403003109}
 --- !u!4 &967267503
 Transform:
   m_ObjectHideFlags: 0
@@ -9423,7 +9423,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 168028875}
-        m_MethodName: on_button_click
+        m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

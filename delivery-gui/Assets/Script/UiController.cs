@@ -5,7 +5,7 @@ using UnityEngine;
 public class UiController : MonoBehaviour
 {
     //绑定退出按钮
-    public void on_button_click()
+    public void Quit()
     {
         Debug.Log("exit");
         Application.Quit();
