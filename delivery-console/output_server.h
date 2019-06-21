@@ -1,0 +1,24 @@
+#pragma once
+#include <windows.h>
+#include <cstdlib>
+#include <fstream>
+#include <vector>
+#include "../delivery-model/model.h"
+#include "../delivery-model/point.h" 
+
+
+static const char* BLANK = "                ";
+//输出程序运行结果
+class OutputServer {
+ public:
+  std::ofstream OutFile;
+
+  OutputServer();
+  ~OutputServer();
+  void PrintToConsole(const Model &m);  //打印到控制台
+  void PrintToFile(const Model &m);     //打印到文件
+  void EndPrint(const Model &m);                 //打印欢迎界面
+ private:
+  void gotoxy(short x, short y);
+};
+
