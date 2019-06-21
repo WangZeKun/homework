@@ -1,5 +1,4 @@
 #include "model.h"
-#include "pch.h"
 
 Model::Model(Point init_position)
     : init_position_(init_position), statu_(GOOD),time_(0),num_all_(0) {

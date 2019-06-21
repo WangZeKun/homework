@@ -125,7 +125,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -246,7 +246,6 @@ echo off</Command>
     <ClInclude Include="constant.h" />
     <ClInclude Include="model.h" />
     <ClInclude Include="order.h" />
-    <ClInclude Include="pch.h" />
     <ClInclude Include="point.h" />
     <ClInclude Include="rider.h" />
   </ItemGroup>
@@ -254,14 +253,6 @@ echo off</Command>
     <ClCompile Include="algorithm.cpp" />
     <ClCompile Include="model.cpp" />
     <ClCompile Include="order.cpp" />
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unity|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Unity|Win32'">Create</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="point.cpp" />
     <ClCompile Include="rider.cpp" />
     <ClCompile Include="SWIG_wrap.cxx" />

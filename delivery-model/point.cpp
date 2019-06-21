@@ -1,5 +1,4 @@
 #include "point.h"
-#include "pch.h"
 
 Point::Point() : x(-1), y(-1), type(FROM), order_id(-1) {}
 

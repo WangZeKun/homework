@@ -1,5 +1,4 @@
 #include "algorithm.h"
-#include "pch.h"
 
 const static int INTMAX = INT_MAX / 2;
 std::tuple<std::queue<Point>, int> Algorithm::cal_solution(

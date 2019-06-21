@@ -34,7 +34,7 @@ int main() {
   while (m.statu() == GOOD || (m.statu() == FINISHED) && in.q.size() != 0) {
     in.inputData(m);
     m.Step();
-   // out.PrintToConsole(m);
+    out.PrintToConsole(m);
     out.PrintToFile(m);
   }
   system("cls");

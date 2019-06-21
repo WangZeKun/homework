@@ -1,5 +1,4 @@
 #include "rider.h"
-#include "pch.h"
 
 Rider::Rider(Point position)
     : position_(position),
