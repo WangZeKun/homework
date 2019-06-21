@@ -7,11 +7,12 @@ public class CameraControll : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Confined; //固定鼠标于游戏内
     }
     //用于处理摄像机移动问题
     void Update()
     {
+        //通过判断鼠标是否在边缘移动摄像机
         if (Input.mousePosition.x < 5)
         {
             if(transform.position.x > -4)
@@ -41,6 +42,7 @@ public class CameraControll : MonoBehaviour
                 transform.position += new Vector3(0, 0, 0.1F);
             }
         }
+        //捕捉鼠标滚轮响应拉近，拉远摄像机
         if (Input.GetAxis("Mouse ScrollWheel") != 0)//这个是鼠标滚轮响应函数
         {
             //滚轮响应一次就让scale自增或自减，注意，滚轮函数是有返回值的，

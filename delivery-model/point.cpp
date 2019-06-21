@@ -13,28 +13,31 @@ int Point::GetDistant(const Point& from, const Point& to) {
   return abs(from.x - to.x) + abs(from.y - to.y);
 }
 
-bool Point::IsArrive(const Point& now, const Point& to) {
-  int x = abs(now.x - to.x), y = abs(now.y - to.y);
+bool Point::IsArrive(const Point& from, const Point& to) {
+  int x = abs(from.x - to.x), y = abs(from.y - to.y);
   return (x == 1 && y == 0) || (x == 0 && y == 1);
 }
 
-Point Point::Move(const Point& position, const Point& destination) {
-  int x = destination.x - position.x;
-  int y = destination.y - position.y;
-  Point p = position;
+Point Point::Move(const Point& from, const Point& to) {
+	//计算出两个点的x，y差值
+  int x = to.x - from.x;
+  int y = to.y - from.y;
+	//初始化要移动的位置
+  Point p = from;
+	//通过判断不同的情况，来决定接下来要走的点
   if (x == 0) {
-    p.x += position.x == 16 ? -1 : 1;
+    p.x += from.x == 16 ? -1 : 1;
     p.y += y > 0 ? 1 : -1;
   } else if (y == 0) {
-    p.y += position.y == 16 ? -1 : 1;
+    p.y += from.y == 16 ? -1 : 1;
     p.x += x > 0 ? 1 : -1;
   } else if (abs(x) > 2 && x % 2 == 0) {
     p.x += abs(x) / x * 2;
   } else if (abs(y) > 2 && y % 2 == 0) {
     p.y += abs(y) / y * 2;
-  } else if (position.x == 1 && x < 0 || position.x == 15 && x > 0) {
+  } else if (from.x == 1 && x < 0 || from.x == 15 && x > 0) {
     p.y += abs(y) / y * 2;
-  } else if (position.y == 1 && y < 0 || position.y == 15 && y > 0) {
+  } else if (from.y == 1 && y < 0 || from.y == 15 && y > 0) {
     p.x += abs(x) / x * 2;
   } else {
     p.x += abs(x) / x;

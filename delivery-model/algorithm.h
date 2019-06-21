@@ -41,11 +41,11 @@ class Algorithm {
   //		bool 是否合法
   static bool Check(int S, int i, int received_num);
 
-  //由from矩阵递归得到路径
+  //由restaurant矩阵递归得到路径
   //输入：
   // int end 当前状态最后一个到达的点
   // int S 当前状态
-  // int **from 矩阵
+  // int **restaurant 矩阵
   // Point P[] 所有的要到达的点
   // std::queue<Point> &path 存储路径的队列
   static void GetPath(int end, int S, int **from, Point P[],

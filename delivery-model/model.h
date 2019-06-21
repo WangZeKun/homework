@@ -53,9 +53,6 @@ class Model {
   //返回当前状态
   ProgramStatus statu() const;
 
-  //待添加的订单
-  std::queue<Order> waiting_order;
-
   //骑手
   std::vector<Rider> riders;
 
@@ -83,4 +80,8 @@ class Model {
 
   //当前时间
   int time_;
+
+  //待添加的订单
+  std::queue<Order> waiting_order_;
+
 };

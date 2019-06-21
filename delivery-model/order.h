@@ -3,13 +3,6 @@
 #include <vector>
 #include "point.h"
 
-enum OrderStatus {
-  MISS,      //未接单
-  RECEIVED,  //已接单
-  SENDING,   //正在派送
-  END,       //已结束
-};
-
 //订单类 用来记录订单数据
 class Order {
  public:
@@ -17,17 +10,17 @@ class Order {
   const unsigned id;
 
   //餐馆
-  const Point from;
+  const Point restaurant;
 
   //食客
-  const Point to;
+  const Point dinner;
 
   //下单时间
   const unsigned time;
 
   Order();
   Order(const unsigned id);
-  Order(const unsigned id, const Point restaurant, const Point customer,
+  Order(const unsigned id, const Point restaurant, const Point dinner,
         const unsigned time);
   ~Order();
 

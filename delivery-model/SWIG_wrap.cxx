@@ -8,6 +8,7 @@
  * interface file instead.
  * ----------------------------------------------------------------------------- */
 
+
 #ifndef SWIGCSHARP
 #define SWIGCSHARP
 #endif
@@ -843,28 +844,6 @@ SWIGEXPORT int SWIGSTDCALL CSharp_Model_statu(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_Model_waiting_order_set(void * jarg1, void * jarg2) {
-  Model *arg1 = (Model *) 0 ;
-  std::queue< Order > *arg2 = (std::queue< Order > *) 0 ;
-  
-  arg1 = (Model *)jarg1; 
-  arg2 = (std::queue< Order > *)jarg2; 
-  if (arg1) (arg1)->waiting_order = *arg2;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_Model_waiting_order_get(void * jarg1) {
-  void * jresult ;
-  Model *arg1 = (Model *) 0 ;
-  std::queue< Order > *result = 0 ;
-  
-  arg1 = (Model *)jarg1; 
-  result = (std::queue< Order > *)& ((arg1)->waiting_order);
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
 SWIGEXPORT void SWIGSTDCALL CSharp_Model_riders_set(void * jarg1, void * jarg2) {
   Model *arg1 = (Model *) 0 ;
   std::vector< Rider > *arg2 = (std::vector< Rider > *) 0 ;
@@ -907,25 +886,25 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_Order_id_get(void * jarg1) {
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_Order_from_get(void * jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_Order_restaurant_get(void * jarg1) {
   void * jresult ;
   Order *arg1 = (Order *) 0 ;
   Point *result = 0 ;
   
   arg1 = (Order *)jarg1; 
-  result = (Point *)& ((arg1)->from);
+  result = (Point *)& ((arg1)->restaurant);
   jresult = (void *)result; 
   return jresult;
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_Order_to_get(void * jarg1) {
+SWIGEXPORT void * SWIGSTDCALL CSharp_Order_dinner_get(void * jarg1) {
   void * jresult ;
   Order *arg1 = (Order *) 0 ;
   Point *result = 0 ;
   
   arg1 = (Order *)jarg1; 
-  result = (Point *)& ((arg1)->to);
+  result = (Point *)& ((arg1)->dinner);
   jresult = (void *)result; 
   return jresult;
 }

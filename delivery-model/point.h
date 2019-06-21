@@ -34,22 +34,22 @@ class Point {
 
 	//判断是否到达
 	//输入
-	//		Point position 当前位置
-	//    Point destination 目标位置
+	//		Point from 当前位置
+	//    Point to 目标位置
 	//输出
 	//		是否到达
-  static bool IsArrive(const Point& position, const Point& destination);
+  static bool IsArrive(const Point& from, const Point& to);
 
 	//骑手下一次行走的位置
 	//输入
-	//    Point position 当前位置
-	//    Point destination 目标位置
+	//    Point from 当前位置
+	//    Point to 目标位置
 	//输出
 	//    Point  移动到下一个点的坐标
-  static Point Move(const Point& position, const Point& destination);
+  static Point Move(const Point& from, const Point& to);
 
 	//操作符重载
-  bool operator==(const Point& b) const;
+  bool operator==(const Point& p) const;
   bool operator<(const Point& p) const;
   bool operator>(const Point& p) const;
 };

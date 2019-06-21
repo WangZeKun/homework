@@ -86,7 +86,7 @@ class Rider {
   //运送中订单
   std::set<Order> sending_orders_;
 
-  //停靠的点
+  //当前时间停靠的点
   std::vector<Point> dock_points_;
 
   //花费总时间

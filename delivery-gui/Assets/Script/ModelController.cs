@@ -119,7 +119,6 @@ public class ModelController : MonoBehaviour
             if (PointToVector(m.riders[i].position()) == riders[i].transform.position)
             {
                 riders[i].GetComponent<SimpleCharacterControl>().m_animator.SetFloat("MoveSpeed", 0);
-
             }
             else
             {

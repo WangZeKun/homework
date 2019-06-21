@@ -50,17 +50,17 @@ public class Order : global::System.IDisposable {
     } 
   }
 
-  public Point from {
+  public Point restaurant {
     get {
-      global::System.IntPtr cPtr = delivery_modelPINVOKE.Order_from_get(swigCPtr);
+      global::System.IntPtr cPtr = delivery_modelPINVOKE.Order_restaurant_get(swigCPtr);
       Point ret = (cPtr == global::System.IntPtr.Zero) ? null : new Point(cPtr, false);
       return ret;
     } 
   }
 
-  public Point to {
+  public Point dinner {
     get {
-      global::System.IntPtr cPtr = delivery_modelPINVOKE.Order_to_get(swigCPtr);
+      global::System.IntPtr cPtr = delivery_modelPINVOKE.Order_dinner_get(swigCPtr);
       Point ret = (cPtr == global::System.IntPtr.Zero) ? null : new Point(cPtr, false);
       return ret;
     } 
@@ -79,7 +79,7 @@ public class Order : global::System.IDisposable {
   public Order(uint id) : this(delivery_modelPINVOKE.new_Order__SWIG_1(id), true) {
   }
 
-  public Order(uint id, Point restaurant, Point customer, uint time) : this(delivery_modelPINVOKE.new_Order__SWIG_2(id, Point.getCPtr(restaurant), Point.getCPtr(customer), time), true) {
+  public Order(uint id, Point restaurant, Point dinner, uint time) : this(delivery_modelPINVOKE.new_Order__SWIG_2(id, Point.getCPtr(restaurant), Point.getCPtr(dinner), time), true) {
     if (delivery_modelPINVOKE.SWIGPendingException.Pending) throw delivery_modelPINVOKE.SWIGPendingException.Retrieve();
   }
 

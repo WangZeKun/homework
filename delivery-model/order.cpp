@@ -6,7 +6,7 @@ Order::Order(const unsigned id) : id(id), time(0) {}
 
 Order::Order(const unsigned id, const Point restaurant, const Point diner,
              const unsigned time)
-    : id(id), from(restaurant), to(diner), time(time){}
+    : id(id), restaurant(restaurant), dinner(diner), time(time){}
 
 Order::~Order() {}
 

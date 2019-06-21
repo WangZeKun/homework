@@ -98,14 +98,14 @@ public class Point : global::System.IDisposable {
     return ret;
   }
 
-  public static bool IsArrive(Point position, Point destination) {
-    bool ret = delivery_modelPINVOKE.Point_IsArrive(Point.getCPtr(position), Point.getCPtr(destination));
+  public static bool IsArrive(Point from, Point to) {
+    bool ret = delivery_modelPINVOKE.Point_IsArrive(Point.getCPtr(from), Point.getCPtr(to));
     if (delivery_modelPINVOKE.SWIGPendingException.Pending) throw delivery_modelPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static Point Move(Point position, Point destination) {
-    Point ret = new Point(delivery_modelPINVOKE.Point_Move(Point.getCPtr(position), Point.getCPtr(destination)), true);
+  public static Point Move(Point from, Point to) {
+    Point ret = new Point(delivery_modelPINVOKE.Point_Move(Point.getCPtr(from), Point.getCPtr(to)), true);
     if (delivery_modelPINVOKE.SWIGPendingException.Pending) throw delivery_modelPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }

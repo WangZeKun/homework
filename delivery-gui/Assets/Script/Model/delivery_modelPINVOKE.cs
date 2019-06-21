@@ -222,12 +222,6 @@ class delivery_modelPINVOKE {
   [global::System.Runtime.InteropServices.DllImport("delivery_model", EntryPoint="CSharp_Model_statu")]
   public static extern int Model_statu(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("delivery_model", EntryPoint="CSharp_Model_waiting_order_set")]
-  public static extern void Model_waiting_order_set(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-  [global::System.Runtime.InteropServices.DllImport("delivery_model", EntryPoint="CSharp_Model_waiting_order_get")]
-  public static extern global::System.IntPtr Model_waiting_order_get(global::System.Runtime.InteropServices.HandleRef jarg1);
-
   [global::System.Runtime.InteropServices.DllImport("delivery_model", EntryPoint="CSharp_Model_riders_set")]
   public static extern void Model_riders_set(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
@@ -240,11 +234,11 @@ class delivery_modelPINVOKE {
   [global::System.Runtime.InteropServices.DllImport("delivery_model", EntryPoint="CSharp_Order_id_get")]
   public static extern uint Order_id_get(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("delivery_model", EntryPoint="CSharp_Order_from_get")]
-  public static extern global::System.IntPtr Order_from_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport("delivery_model", EntryPoint="CSharp_Order_restaurant_get")]
+  public static extern global::System.IntPtr Order_restaurant_get(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-  [global::System.Runtime.InteropServices.DllImport("delivery_model", EntryPoint="CSharp_Order_to_get")]
-  public static extern global::System.IntPtr Order_to_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+  [global::System.Runtime.InteropServices.DllImport("delivery_model", EntryPoint="CSharp_Order_dinner_get")]
+  public static extern global::System.IntPtr Order_dinner_get(global::System.Runtime.InteropServices.HandleRef jarg1);
 
   [global::System.Runtime.InteropServices.DllImport("delivery_model", EntryPoint="CSharp_Order_time_get")]
   public static extern uint Order_time_get(global::System.Runtime.InteropServices.HandleRef jarg1);

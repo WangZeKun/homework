@@ -33,21 +33,21 @@ std::tuple<std::queue<Point>, int> Algorithm::cal_solution(
   }
 
   //初始化P
-  P[0] = new_order.from;  //给新增加的订单单独赋值
-  P[1] = new_order.to;
+  P[0] = new_order.restaurant;  //给新增加的订单单独赋值
+  P[1] = new_order.dinner;
   last_time[1] =
       OUTDATE_TIME * 2 - 2;  // -2 以忽略曼哈顿距离估算带来的误差，下面同上
   for (auto it_from = r.received_orders().begin();
        it_from != r.received_orders().end(); it_from++) {
-    P[index_from] = (*it_from).from;
-    P[index_from + 1] = (*it_from).to;
+    P[index_from] = (*it_from).restaurant;
+    P[index_from + 1] = (*it_from).dinner;
     last_time[index_from + 1] =
         (OUTDATE_TIME - (time - (*it_from).time)) * 2 - 2;  //乘2以翻译成cost 减2以平衡估算带来的误差
     index_from += 2;
   }
   for (auto it_from = r.sending_orders().begin();
        it_from != r.sending_orders().end(); it_from++) {
-    P[index_from] = (*it_from).to;
+    P[index_from] = (*it_from).dinner;
     last_time[index_from] = (OUTDATE_TIME - (time - (*it_from).time)) * 2 - 2; // 减2以平衡估算带来的误差
     index_from += 1;
   }

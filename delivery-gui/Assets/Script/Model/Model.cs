@@ -90,17 +90,6 @@ public class Model : global::System.IDisposable {
     return ret;
   }
 
-  public SWIGTYPE_p_std__queueT_Order_t waiting_order {
-    set {
-      delivery_modelPINVOKE.Model_waiting_order_set(swigCPtr, SWIGTYPE_p_std__queueT_Order_t.getCPtr(value));
-    } 
-    get {
-      global::System.IntPtr cPtr = delivery_modelPINVOKE.Model_waiting_order_get(swigCPtr);
-      SWIGTYPE_p_std__queueT_Order_t ret = (cPtr == global::System.IntPtr.Zero) ? null : new SWIGTYPE_p_std__queueT_Order_t(cPtr, false);
-      return ret;
-    } 
-  }
-
   public RiderVector riders {
     set {
       delivery_modelPINVOKE.Model_riders_set(swigCPtr, RiderVector.getCPtr(value));
