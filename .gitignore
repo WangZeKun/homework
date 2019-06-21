@@ -10,10 +10,11 @@ Debug
 /delivery-console/two_3_output2.txt
 /delivery-console/two_3_output1.txt
 /delivery-console/sales.txt
-/delivery-gui/Library
 /delivery-gui/Logs
 /delivery-gui/obj
 /delivery-gui/Packages
 /delivery-model/interface
 /delivery-model/Release
 /delivery-model/x64
+/build
+/build.zip
